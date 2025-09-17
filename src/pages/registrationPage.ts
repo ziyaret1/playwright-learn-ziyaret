@@ -50,17 +50,23 @@ export class registerPage {
   }
 
 
-  //check more
   async fillDateOfBirth(dateOfBirth: string): Promise<void> {
     await this.dateOfBirthInput.fill(dateOfBirth);
     await this.page.keyboard.press("Tab");
   }
 
-  async fillRequiredFieldsExceptFirstName() {
-    await this.lastnameInput.fill("Testzi");
-    await this.emailInput.fill(`testzi${Date.now()}@mail.com`);
+  async fillRequiredFieldsExcept(skipField: 'firstname' | 'lastname' | null = null): Promise<void> {  //for select which field will be empty
+    if(skipField !== 'firstname') {
+        await this.firstnameInput.fill('TestFirstName') 
+    }
+    if(skipField !== 'lastname') {
+        await this.lastnameInput.fill('TestLastname')
+    }
+    
+    await this.emailInput.fill(`testzi${Date.now()}@mail.com`);  //for make email address unique
     await this.passwordInput.fill("Test1234!");
     await this.confirmPasswordInput.fill("Test1234!");
     await this.dateOfBirthInput.fill("2000-01-01");
   }
+
 }

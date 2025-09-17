@@ -6,7 +6,7 @@ test.describe('First name Suite', () =>{
     test.beforeEach(async ({page}) =>{
         const register = new registerPage(page);
         await register.goto();
-        await register.fillRequiredFieldsExceptFirstName();
+        await register.fillRequiredFieldsExcept('firstname');
     });
 
     test('[AQAPRACT-509]: Register with max First name length (255 characters)', async ({page}) =>{
