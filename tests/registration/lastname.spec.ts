@@ -10,6 +10,6 @@ test.describe('Last name Suite', () =>{
     })
 
     test('[AQAPRACT-514]: Register with max Last name length (255 characters)', async({page}) =>{
-        
+        const register = new registerPage(page);
     })
 })
