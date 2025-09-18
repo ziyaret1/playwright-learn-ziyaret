@@ -1,6 +1,7 @@
 import { expect, type Locator, type Page } from "@playwright/test";
+import { generateUniqueEmail, TestData } from "../testData/testData";
 
-export class registerPage {
+export class RegisterPage {
   readonly page: Page;
   readonly firstnameInput: Locator;
   readonly lastnameInput: Locator;
@@ -55,18 +56,18 @@ export class registerPage {
     await this.page.keyboard.press("Tab");
   }
 
-  async fillRequiredFieldsExcept(skipField: 'firstname' | 'lastname' | null = null): Promise<void> {  //for select which field will be empty
+  async fillRequiredFieldsExcept(skipField?: 'firstname' | 'lastname'): Promise<void> {  //for select which field will be empty
     if(skipField !== 'firstname') {
-        await this.firstnameInput.fill('TestFirstName') 
+        await this.firstnameInput.fill(TestData.FIRSTNAME) 
     }
     if(skipField !== 'lastname') {
-        await this.lastnameInput.fill('TestLastname')
+        await this.lastnameInput.fill(TestData.LASTNAME)
     }
     
-    await this.emailInput.fill(`testzi${Date.now()}@mail.com`);  //for make email address unique
-    await this.passwordInput.fill("Test1234!");
-    await this.confirmPasswordInput.fill("Test1234!");
-    await this.dateOfBirthInput.fill("2000-01-01");
+    await this.emailInput.fill(generateUniqueEmail());  
+    await this.passwordInput.fill(TestData.PASSWORD);
+    await this.confirmPasswordInput.fill(TestData.PASSWORD);
+    await this.dateOfBirthInput.fill(TestData.DATE_OF_BIRTH);
   }
 
 }

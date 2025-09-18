@@ -1,16 +1,16 @@
 import { expect, test } from "@playwright/test";
-import { registerPage } from "../../src/pages/registrationPage";
+import { RegisterPage } from "../../src/pages/registrationPage";
 
 test.describe('First name Suite', () =>{
+    let register: RegisterPage;
     
     test.beforeEach(async ({page}) =>{
-        const register = new registerPage(page);
+        register = new RegisterPage(page);
         await register.goto();
         await register.fillRequiredFieldsExcept('firstname');
     });
 
-    test('[AQAPRACT-509]: Register with max First name length (255 characters)', async ({page}) =>{
-        const register = new registerPage(page);
+    test('AQAPRACT-509 Register with max First name length (255 characters)', async ({page}) =>{
         const maxLength = 'A'.repeat(255);
 
         await register.fillFirstname(maxLength);
@@ -21,8 +21,7 @@ test.describe('First name Suite', () =>{
 
     });
 
-    test('[AQAPRACT-510]: Register with min First name length (1 character)', async({page}) =>{
-        const register = new registerPage(page);
+    test('AQAPRACT-510 Register with min First name length (1 character)', async({page}) =>{
         await register.fillFirstname('A');
         await expect(register.firstnameInput).toHaveValue('A');
 
@@ -30,8 +29,7 @@ test.describe('First name Suite', () =>{
         await expect(page).toHaveURL('https://qa-course-01.andersenlab.com/login');
     });
 
-    test('[AQAPRACT-511]: Register with max+1 First name length (256 characters)', async({page}) =>{
-        const register = new registerPage(page);
+    test('AQAPRACT-511 Register with max+1 First name length (256 characters)', async({page}) =>{
         const aboveMaxLength = 'A'.repeat(256);
 
         await register.fillFirstname(aboveMaxLength);
@@ -42,22 +40,19 @@ test.describe('First name Suite', () =>{
         await expect(page.locator('text=The value length shouldn\'t exceed 255 symbols')).toBeVisible();
     });
 
-    test('[AQAPRACT-512]: Register with empty First name field', async({page}) => {
-        const register = new registerPage(page);
+    test('AQAPRACT-512 Register with empty First name field', async() => {
         await register.fillFirstname('');
         await expect(register.firstnameInput).toHaveValue(''); 
-
         await expect(register.submitButton).toBeDisabled();
     });
 
-    test('[AQAPRACT-513]: Register with spaces in First name field', async({page}) =>{
-        const register = new registerPage(page);
+    test('AQAPRACT-513 Register with spaces in First name field', async({page}) =>{
         await register.fillFirstname('   ');
         await expect(register.firstnameInput).toHaveValue('   ');
         await register.submit();
         await expect(page.locator('text=The field is required.')).toBeVisible();
         await expect(register.firstnameInput).toHaveClass(/border-rose-500/);
 
-    })
+    });
 
 })
