@@ -10,7 +10,7 @@ test.describe("Last name Suite", () => {
     await register.fillRequiredFieldsExcept("lastname");
   });
 
-  test("AQAPRACT-514 Register with max Last name length (255 characters)", async ({
+  test("[AQAPRACT-514] Register with max Last name length (255 characters)", async ({
     page,
   }) => {
     const maxLength = "A".repeat(255);
@@ -21,7 +21,7 @@ test.describe("Last name Suite", () => {
     await expect(page).toHaveURL("https://qa-course-01.andersenlab.com/login");
   });
 
-  test("AQAPRACT-515 Register with min Last name length (1 character)", async ({
+  test("[AQAPRACT-515] Register with min Last name length (1 character)", async ({
     page,
   }) => {
     await register.fillLastname("A");
@@ -31,7 +31,7 @@ test.describe("Last name Suite", () => {
     await expect(page).toHaveURL("https://qa-course-01.andersenlab.com/login");
   });
 
-  test("AQAPRACT-516 Register with max+1 Last name length (256 characters)", async ({
+  test("[AQAPRACT-516] Register with max+1 Last name length (256 characters)", async ({
     page,
   }) => {
     const aboveMaxLength = "A".repeat(256);
@@ -46,14 +46,14 @@ test.describe("Last name Suite", () => {
     ).toBeVisible();
   });
 
-  test("AQAPRACT-517 Register with empty Last name field", async () => {
+  test("[AQAPRACT-517] Register with empty Last name field", async () => {
     await register.fillLastname("");
     await expect(register.lastnameInput).toHaveValue("");
 
     await expect(register.submitButton).toBeDisabled();
   });
 
-  test("AQAPRACT-518 Register with spaces in Last name field", async ({
+  test("[AQAPRACT-518] Register with spaces in Last name field", async ({
     page,
   }) => {
     await register.fillLastname("   ");
