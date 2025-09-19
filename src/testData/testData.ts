@@ -5,6 +5,6 @@ export enum TestData {
   DATE_OF_BIRTH = "2000-01-01"
 };
 
-export const generateUniqueEmail = (): string => {
-  return `testAQA${Date.now()}@gmail.com`
-};
+export const generateUniqueEmail = (): string =>  {    //for make email address unique (not added testdata because it is not fixed)
+return `testzi${Date.now()}@mail.com`;
+} 
