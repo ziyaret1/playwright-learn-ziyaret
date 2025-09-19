@@ -1,6 +1,5 @@
 import { expect, type Locator, type Page } from "@playwright/test";
 import { TestData, generateUniqueEmail } from "../testData/testData";
-import { register } from "module";
 
 export class RegisterPage {
   // Input elements
@@ -124,7 +123,7 @@ export class RegisterPage {
     }
   }
 
-  // Calendar
+  // Date of Birth and Calendar
   async openCalendar(): Promise<void> {
     await this.dateOfBirthInput.click();
   }
@@ -179,11 +178,5 @@ export class RegisterPage {
    async invalidConfirmPasswordError(): Promise<void> {
     await expect(this.confirmPasswordInput).toHaveClass(/border-rose-500/);
   }
-//   async emptyConfirmPasswordError(): Promise<void> {
-//     await expect(this.confirmPasswordInput).toHaveClass(/border-rose-500/);
-//     // await expect(this.emptyConfirmPasswordError).tobev();
 
-//   }
-
-  
 }
