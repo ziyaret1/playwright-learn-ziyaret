@@ -15,7 +15,7 @@ test.describe("Sign In Suite: Email Address", () => {
     page,
   }) => {
     await signIn.fillEmailAddress("");
-    await signIn.fillPasswordInput(TestDataSignin.PASSWORDSN);
+    await signIn.fillPasswordInput(TestDataSignin.PASSWORD);
     await expect(signIn.emailAddress).toHaveValue("");
     await signIn.emailValidationError();
   });
