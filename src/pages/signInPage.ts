@@ -39,12 +39,12 @@ export class SignInPage {
   }
 
   //! Error message
-  async errorRequiredEmail(): Promise<void> {
+  async verifyErrorRequiredEmail(): Promise<void> {
     await expect(this.emailAddressInput).toHaveClass(/border-rose-500/);
     await expect(this.emailIsRequiredErrorMessage).toBeVisible();
   }
 
-  async errorRequiredPassword(): Promise<void> {
+  async verifyErrorRequiredPassword(): Promise<void> {
     await expect(this.passwordInput).toHaveClass(/border-rose-500/);
     await expect(this.passwordIsRequiredErrorMsg).toBeVisible();
     await expect(this.submitButtonSignIn).toBeDisabled();

@@ -17,7 +17,7 @@ test.describe("Sign In Suite: Email Address", () => {
     await signIn.fillEmailAddress("");
     await signIn.fillPasswordInput(TestDataSignin.PASSWORD);
     await expect(signIn.emailAddressInput).toHaveValue("");
-    await signIn.errorRequiredEmail();
+    await signIn.verifyErrorRequiredEmail();
   });
 });
 
@@ -36,7 +36,7 @@ test.describe("Sign In Suite: Password", () => {
     await signIn.fillPasswordInput("");
     await signIn.emailAddressInput.click();
     await expect(signIn.passwordInput).toHaveValue("");
-    await signIn.errorRequiredPassword();
+    await signIn.verifyErrorRequiredPassword();
   });
 
   test('[AQAPRACT-541] Validation of "Password" on min length (8 characters)', async () => {
