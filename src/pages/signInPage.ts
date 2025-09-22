@@ -5,8 +5,8 @@ export class SignInPage {
   readonly emailAddress: Locator;
   readonly passwordInput: Locator;
   readonly buttonSignIn: Locator;
-  readonly emailErrorMessage: Locator;
-  readonly passwordErrorMessage: Locator;
+  readonly emailRequiredErrorMessage: Locator;
+  readonly passwordRequiredErrorMessage: Locator;
   readonly passwordErrorMin: Locator;
   readonly passwordErrorMax: Locator;
 
@@ -15,8 +15,8 @@ export class SignInPage {
     this.emailAddress = page.locator('input[name="email"]');
     this.passwordInput = page.locator('input[name="password"]');
     this.buttonSignIn = page.locator('button[type="submit"]');
-    this.emailErrorMessage = page.locator("text=Required");
-    this.passwordErrorMessage = page.locator("text=Required");
+    this.emailRequiredErrorMessage = page.locator("text=Required");
+    this.passwordRequiredErrorMessage = page.locator("text=Required");
     this.passwordErrorMin = page.locator("text=Minimum 8 characters");
     this.passwordErrorMax = page.locator("text=Maximum 20 characters");
   }
@@ -34,19 +34,19 @@ export class SignInPage {
     await this.passwordInput.fill(password);
   }
 
-  async submitClick() {
+  async submit() {
     await this.buttonSignIn.click();
   }
 
   //! Error message
-  async emailError(): Promise<void> {
+  async emailValidationError(): Promise<void> {
     await expect(this.emailAddress).toHaveClass(/border-rose-500/);
-    await expect(this.emailErrorMessage).toBeVisible();
+    await expect(this.emailRequiredErrorMessage).toBeVisible();
   }
 
-  async passwordEmptyError(): Promise<void> {
+  async passwordRequiredError(): Promise<void> {
     await expect(this.passwordInput).toHaveClass(/border-rose-500/);
-    await expect(this.passwordErrorMessage).toBeVisible();
+    await expect(this.passwordRequiredErrorMessage).toBeVisible();
     await expect(this.buttonSignIn).toBeDisabled();
   }
 }
