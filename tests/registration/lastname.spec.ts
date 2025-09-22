@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { RegisterPage } from "../../src/pages/registrationPage";
+import { generateUniqueEmail, TestData } from "../../src/testData/testData";
 
 test.describe("Last name Suite", () => {
   let register: RegisterPage;
@@ -7,17 +8,21 @@ test.describe("Last name Suite", () => {
   test.beforeEach(async ({ page }) => {
     register = new RegisterPage(page);
     await register.goto();
-    await register.fillRequiredFieldsExcept("lastname");
+    await register.fillFirstname(TestData.FIRSTNAME);
+    await register.fillLastname(TestData.LASTNAME);
+    await register.fillDateOfBirth(TestData.DATE_OF_BIRTH);
+    await register.fillPassword(TestData.PASSWORD);
+    await register.fillConfirmPassword(TestData.PASSWORD);
+    await register.fillEmailInput(generateUniqueEmail());
   });
 
   test("[AQAPRACT-514] Register with max Last name length (255 characters)", async ({
     page,
   }) => {
     const maxLength = "A".repeat(255);
-
     await register.fillLastname(maxLength);
     await expect(register.lastnameInput).toHaveValue(maxLength);
-    await register.submit();
+    await register.submitButton.click();
     await expect(page).toHaveURL("https://qa-course-01.andersenlab.com/login");
   });
 
@@ -27,7 +32,7 @@ test.describe("Last name Suite", () => {
     await register.fillLastname("A");
     await expect(register.lastnameInput).toHaveValue("A");
 
-    await register.submit();
+    await register.submitButton.click();
     await expect(page).toHaveURL("https://qa-course-01.andersenlab.com/login");
   });
 
@@ -39,7 +44,7 @@ test.describe("Last name Suite", () => {
     await register.fillLastname(aboveMaxLength);
     await expect(register.lastnameInput).toHaveValue(aboveMaxLength);
 
-    await register.submit();
+    await register.submitButton.click();
     await expect(register.lastnameInput).toHaveClass(/border-rose-500/);
     await expect(
       page.locator("text=The value length shouldn't exceed 255 symbols")
@@ -58,7 +63,7 @@ test.describe("Last name Suite", () => {
   }) => {
     await register.fillLastname("   ");
     await expect(register.lastnameInput).toHaveValue("   ");
-    await register.submit();
+    await register.submitButton.click();
     await expect(page.locator("text=The field is required.")).toBeVisible();
     await expect(register.lastnameInput).toHaveClass(/border-rose-500/);
   });

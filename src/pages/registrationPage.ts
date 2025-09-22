@@ -93,35 +93,6 @@ export class RegisterPage {
     await this.page.keyboard.press("Tab");
   }
 
-  // Fill required fields
-  async fillRequiredFieldsExcept(
-    skipField?:
-      | "firstname"
-      | "lastname"
-      | "dateOfBirth"
-      | "email"
-      | "password"
-      | "confirmPassword"
-  ): Promise<void> {
-    if (skipField !== "firstname") {
-      await this.firstnameInput.fill(TestData.FIRSTNAME);
-    }
-    if (skipField !== "lastname") {
-      await this.lastnameInput.fill(TestData.LASTNAME);
-    }
-    if (skipField !== "dateOfBirth") {
-      await this.dateOfBirthInput.fill(TestData.DATE_OF_BIRTH);
-    }
-    if (skipField !== "email") {
-      await this.emailInput.fill(generateUniqueEmail());
-    }
-    if (skipField !== "password") {
-      await this.passwordInput.fill(TestData.PASSWORD);
-    }
-    if (skipField !== "password") {
-      await this.confirmPasswordInput.fill(TestData.PASSWORD);
-    }
-  }
 
   // Date of Birth and Calendar
   async openCalendar(): Promise<void> {

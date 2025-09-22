@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { RegisterPage } from "../../src/pages/registrationPage";
+import { generateUniqueEmail, TestData } from "../../src/testData/testData";
 
 test.describe("Date of Birth Suite", () => {
   let register: RegisterPage;
@@ -7,7 +8,12 @@ test.describe("Date of Birth Suite", () => {
   test.beforeEach(async ({ page }) => {
     register = new RegisterPage(page);
     await register.goto();
-    await register.fillRequiredFieldsExcept("dateOfBirth");
+    await register.fillDateOfBirth("");
+    await register.fillFirstname(TestData.FIRSTNAME);
+    await register.fillLastname(TestData.LASTNAME);
+    await register.fillPassword(TestData.PASSWORD);
+    await register.fillConfirmPassword(TestData.PASSWORD);
+    await register.fillEmailInput(generateUniqueEmail());
   });
 
   test('[AQAPRACT-519] Register with empty "Date of birth" field', async ({
