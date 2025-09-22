@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { RegisterPage } from "../../src/pages/registrationPage";
+import { generateUniqueEmail, TestData } from "../../src/testData/testData";
 
 test.describe("Password Suite", () => {
   let register: RegisterPage;
@@ -7,8 +8,12 @@ test.describe("Password Suite", () => {
   test.beforeEach(async ({ page }) => {
     register = new RegisterPage(page);
     await register.goto();
-    await register.fillRequiredFieldsExcept("password");
-    await register.fillRequiredFieldsExcept("confirmPassword");
+    await register.fillPassword("");
+    await register.fillConfirmPassword("");
+    await register.fillFirstname(TestData.FIRSTNAME);
+    await register.fillLastname(TestData.LASTNAME);
+    await register.fillDateOfBirth(TestData.DATE_OF_BIRTH);
+    await register.fillEmailInput(generateUniqueEmail());
   });
 
   test("[AQAPRACT-526] Register with min Password length (8 characters)", async ({
@@ -91,7 +96,7 @@ test.describe("Password Suite", () => {
   });
 
   
-  test("[AQAPRACT-532] Register with empty Confirm password field", async ({
+  test("[AQAPRACT-533] Register with empty Confirm password field", async ({
     page,
   }) => {
     const passwordData: string = "TestConf11";

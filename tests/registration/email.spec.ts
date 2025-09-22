@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { RegisterPage } from "../../src/pages/registrationPage";
-import { InvalidEmail } from "../../src/testData/testData";
+import { generateUniqueEmail, InvalidEmail, TestData } from "../../src/testData/testData";
 
 test.describe("Email Suite", () => {
   let register: RegisterPage;
@@ -8,7 +8,12 @@ test.describe("Email Suite", () => {
   test.beforeEach(async ({ page }) => {
     register = new RegisterPage(page);
     await register.goto();
-    await register.fillRequiredFieldsExcept("email");
+    await register.fillEmailInput("");
+    await register.fillFirstname(TestData.FIRSTNAME);
+    await register.fillLastname(TestData.LASTNAME);
+    await register.fillDateOfBirth(TestData.DATE_OF_BIRTH);
+    await register.fillPassword(TestData.PASSWORD);
+    await register.fillConfirmPassword(TestData.PASSWORD);
   });
 
 
@@ -37,7 +42,7 @@ test.describe("Email Suite", () => {
     // refresh and again submit with same email
     const registrationLink = page.locator('span:has-text("Registration")');
     await registrationLink.click();
-    await register.fillRequiredFieldsExcept("email");
+    await register.fillEmailInput(generateUniqueEmail());
     await register.fillEmailInput(testEmailAddress);
     await register.submitButton.click();
     await register.dublicateEmailError();

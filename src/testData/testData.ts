@@ -1,12 +1,12 @@
 export enum TestData {
-  FIRSTNAME = "TestFirstName",
-  LASTNAME = "TestLastName",
+  FIRSTNAME = "TestAQA",
+  LASTNAME = "TestAQA",
   PASSWORD = "Test12345678",
   DATE_OF_BIRTH = "2000-01-01"
 }; 
 
 export const generateUniqueEmail = (): string =>  {    //for make email address unique (not added testdata because it is not fixed)
-return `testzi${Date.now()}@mail.com`;
+return `testaqa${Date.now()}@mail.com`;
 } 
 
 export enum InvalidEmail {
