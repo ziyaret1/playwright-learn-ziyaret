@@ -2,23 +2,23 @@ import { expect, type Locator, type Page } from "@playwright/test";
 
 export class SignInPage {
   readonly page: Page;
-  readonly emailAddress: Locator;
+  readonly emailAddressInput: Locator;
   readonly passwordInput: Locator;
-  readonly buttonSignIn: Locator;
-  readonly emailRequiredErrorMessage: Locator;
-  readonly passwordRequiredErrorMessage: Locator;
-  readonly passwordErrorMin: Locator;
-  readonly passwordErrorMax: Locator;
+  readonly submitButtonSignIn: Locator;
+  readonly emailIsRequiredErrorMessage: Locator;
+  readonly passwordIsRequiredErrorMsg: Locator;
+  readonly passwordErrorMinMsg: Locator;
+  readonly passwordErrorMaxMsg: Locator;
 
   constructor(page: Page) {
     this.page = page;
-    this.emailAddress = page.locator('input[name="email"]');
+    this.emailAddressInput = page.locator('input[name="email"]');
     this.passwordInput = page.locator('input[name="password"]');
-    this.buttonSignIn = page.locator('button[type="submit"]');
-    this.emailRequiredErrorMessage = page.locator("text=Required");
-    this.passwordRequiredErrorMessage = page.locator("text=Required");
-    this.passwordErrorMin = page.locator("text=Minimum 8 characters");
-    this.passwordErrorMax = page.locator("text=Maximum 20 characters");
+    this.submitButtonSignIn = page.locator('button[type="submit"]');
+    this.emailIsRequiredErrorMessage = page.locator("text=Required");
+    this.passwordIsRequiredErrorMsg = page.locator("text=Required");
+    this.passwordErrorMinMsg = page.locator("text=Minimum 8 characters");
+    this.passwordErrorMaxMsg = page.locator("text=Maximum 20 characters");
   }
 
   //! Open Sign in page
@@ -28,25 +28,25 @@ export class SignInPage {
 
   //! Input fill
   async fillEmailAddress(email: string): Promise<void> {
-    await this.emailAddress.fill(email);
+    await this.emailAddressInput.fill(email);
   }
   async fillPasswordInput(password: string): Promise<void> {
     await this.passwordInput.fill(password);
   }
 
   async submit() {
-    await this.buttonSignIn.click();
+    await this.submitButtonSignIn.click();
   }
 
   //! Error message
-  async emailValidationError(): Promise<void> {
-    await expect(this.emailAddress).toHaveClass(/border-rose-500/);
-    await expect(this.emailRequiredErrorMessage).toBeVisible();
+  async errorRequiredEmail(): Promise<void> {
+    await expect(this.emailAddressInput).toHaveClass(/border-rose-500/);
+    await expect(this.emailIsRequiredErrorMessage).toBeVisible();
   }
 
-  async passwordRequiredError(): Promise<void> {
+  async errorRequiredPassword(): Promise<void> {
     await expect(this.passwordInput).toHaveClass(/border-rose-500/);
-    await expect(this.passwordRequiredErrorMessage).toBeVisible();
-    await expect(this.buttonSignIn).toBeDisabled();
+    await expect(this.passwordIsRequiredErrorMsg).toBeVisible();
+    await expect(this.submitButtonSignIn).toBeDisabled();
   }
 }

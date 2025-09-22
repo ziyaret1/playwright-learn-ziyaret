@@ -16,8 +16,8 @@ test.describe("Sign In Suite: Email Address", () => {
   }) => {
     await signIn.fillEmailAddress("");
     await signIn.fillPasswordInput(TestDataSignin.PASSWORD);
-    await expect(signIn.emailAddress).toHaveValue("");
-    await signIn.emailValidationError();
+    await expect(signIn.emailAddressInput).toHaveValue("");
+    await signIn.errorRequiredEmail();
   });
 });
 
@@ -32,17 +32,17 @@ test.describe("Sign In Suite: Password", () => {
     page,
   }) => {
     await signIn.fillEmailAddress(TestDataSignin.EMAIL);
-    await expect(signIn.emailAddress).toHaveValue(TestDataSignin.EMAIL);
+    await expect(signIn.emailAddressInput).toHaveValue(TestDataSignin.EMAIL);
 
     await signIn.fillPasswordInput("");
-    await signIn.emailAddress.click();
+    await signIn.emailAddressInput.click();
     await expect(signIn.passwordInput).toHaveValue("");
-    await signIn.passwordRequiredError();
+    await signIn.errorRequiredPassword();
   });
 
   test('[AQAPRACT-541] Validation of "Password" on min length (8 characters)', async () => {
     await signIn.fillPasswordInput(TestDataSignin.PASSWORD_MIN);
-    await expect(signIn.passwordErrorMin).not.toBeVisible();
+    await expect(signIn.passwordErrorMinMsg).not.toBeVisible();
     // check masked
     await expect(signIn.passwordInput).toHaveAttribute("type", "password");
   });
@@ -50,23 +50,23 @@ test.describe("Sign In Suite: Password", () => {
   test('[AQAPRACT-542] Validation of "Password" on max length (20 characters)', async () => {
     await signIn.fillEmailAddress(TestDataSignin.EMAIL);
     await signIn.fillPasswordInput(TestDataSignin.PASSWORD_MAX);
-    await expect(signIn.passwordErrorMin).not.toBeVisible();
-    await expect(signIn.buttonSignIn).toBeVisible();
+    await expect(signIn.passwordErrorMinMsg).not.toBeVisible();
+    await expect(signIn.submitButtonSignIn).toBeVisible();
   });
 
   test('[AQAPRACT-543] Validation of "Password" on 7 characters', async () => {
     await signIn.fillEmailAddress(TestDataSignin.EMAIL);
     await signIn.fillPasswordInput(TestDataSignin.PASSWORD_UNDER_MIN);
-    await signIn.emailAddress.click();
+    await signIn.emailAddressInput.click();
     await expect(signIn.passwordInput).toHaveClass(/border-rose-500/);
-    await expect(signIn.passwordErrorMin).toBeVisible();
+    await expect(signIn.passwordErrorMinMsg).toBeVisible();
   });
 
   test('[AQAPRACT-544] Validation of "Password" on 21 chacacters', async () => {
     await signIn.fillEmailAddress(TestDataSignin.EMAIL);
     await signIn.fillPasswordInput(TestDataSignin.PASSWORD_OVER_MAX);
-    await signIn.emailAddress.click();
+    await signIn.emailAddressInput.click();
     await expect(signIn.passwordInput).toHaveClass(/border-rose-500/);
-    await expect(signIn.passwordErrorMax).toBeVisible();
+    await expect(signIn.passwordErrorMaxMsg).toBeVisible();
   });
 });
