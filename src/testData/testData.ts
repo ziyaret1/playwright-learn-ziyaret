@@ -3,7 +3,6 @@ export enum TestData {
   LASTNAME = "TestAQA",
   PASSWORD = "Test12345678",
   DATE_OF_BIRTH = "2000-01-01",
-
 }; 
 
 export const generateUniqueEmail = (): string =>  {    //for make email address unique (not added testdata because it is not fixed)
