@@ -33,7 +33,6 @@ test.describe("Sign In Suite: Password", () => {
   }) => {
     await signIn.fillEmailAddress(TestDataSignin.EMAIL);
     await expect(signIn.emailAddressInput).toHaveValue(TestDataSignin.EMAIL);
-
     await signIn.fillPasswordInput("");
     await signIn.emailAddressInput.click();
     await expect(signIn.passwordInput).toHaveValue("");

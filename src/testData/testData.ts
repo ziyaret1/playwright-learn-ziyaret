@@ -19,7 +19,6 @@ export enum InvalidEmail {
 export enum TestDataSignin {
   EMAIL = "testZi@gmail.com",
   PASSWORD = "Zi11111111",
-
   //! Password validation test data
   PASSWORD_MIN = "12345678",            // 8 characters
   PASSWORD_MAX = "12345678901234567890", // 20 characters
