@@ -25,7 +25,7 @@ export class SignInPage extends BasePage {
   }
 
   //! Open Sign in page
-  async goto() {
+  async goto(): Promise<void> {
     await super.goto(PageUrls.SIGNIN);
   }
 
@@ -37,7 +37,7 @@ export class SignInPage extends BasePage {
     await this.passwordInput.fill(password);
   }
 
-  async submit() {
+  async submit(): Promise<void> {
     await this.submitButtonSignIn.click();
   }
 

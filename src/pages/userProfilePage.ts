@@ -86,7 +86,7 @@ export class UserProfilePage extends BasePage {
   }
 
   //! Methods
-  async goto() {
+  async goto(): Promise<void> {
     await super.goto(PageUrls.USER_PROFILE);
   }
 
@@ -135,33 +135,33 @@ export class UserProfilePage extends BasePage {
     await expect(this.saveButton).toBeVisible();
   }
 
-  async updateFirstname(value: string) {
+  async updateFirstname(value: string): Promise<void> {
     await this.firstNameInput.fill(value);
   }
 
-  async updateLastname(value: string) {
+  async updateLastname(value: string): Promise<void> {
     await this.lastNameInput.fill(value);
   }
 
-  async updateEmail(value: string) {
+  async updateEmail(value: string): Promise<void> {
     await this.emailInput.fill(value);
   }
 
-  async updateDateOfBirth(value: string) {
+  async updateDateOfBirth(value: string): Promise<void> {
     await this.dateOfBirthInput.fill(value);
   }
 
-  async clickSave() {
+  async clickSave(): Promise<void> {
     await this.saveButton.click();
     await expect(this.editPersonalInfoTitle).toHaveCount(0);
   }
 
-  async clickCancel() {
+  async clickCancel(): Promise<void> {
     await this.cancelButton.click();
     await expect(this.editPersonalInfoTitle).toHaveCount(0);
   }
 
-  async clickCloseModal() {
+  async clickCloseModal(): Promise<void> {
     await this.modalCloseButton.click();
     await expect(this.editPersonalInfoTitle).toHaveCount(0);
   }

@@ -111,7 +111,7 @@ export class RegisterPage extends BasePage{
     await dayLocator.first().click();
   }
 
-  async selectDate(year: string, month: string, day: string) {
+  async selectDate(year: string, month: string, day: string): Promise<void> {
     await this.openCalendar();
     await this.selectYear(year);
     await this.selectMonth(month);
