@@ -10,4 +10,8 @@ export class BasePage {
   async goto(url: string) {
     await this.page.goto(url);
   }
+
+  getPage(): Page {
+    return this.page;
+  }
 }

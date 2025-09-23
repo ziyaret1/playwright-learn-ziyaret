@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { UserProfilePage } from "../../src/pages/userProfilePage";
 import { SignInPage } from "../../src/pages/signInPage";
-import { TestDataSignin } from "../../src/testData/testData";
+import { PageUrls, TestDataSignin } from "../../src/testData/testData";
 
 let userProfilePage: UserProfilePage;
 let signIn: SignInPage;
@@ -91,12 +91,15 @@ test.describe("Edit Profile Suite", async () => {
     await userProfilePage.editButton.click();
     await userProfilePage.clickCancel();
     await expect(userProfilePage.editPersonalInfoTitle).toHaveCount(0);
+    await expect(userProfilePage.getPage()).toHaveURL(PageUrls.USER_PROFILE)
   });
 
   test('[AQAPRACT-555] Close "Edit personal information" flyout by "X" button', async () => {
     await userProfilePage.editButton.click();
+    const originalFirstName = await userProfilePage.firstNameInput.inputValue();
     await userProfilePage.updateFirstname("TemporaryName");
     await userProfilePage.clickCloseModal();
     await expect(userProfilePage.editPersonalInfoTitle).toHaveCount(0);
+    await expect(userProfilePage.userName).toContainText(originalFirstName);
   });
 });
