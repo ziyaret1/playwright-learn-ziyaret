@@ -1,7 +1,9 @@
 import { expect, type Locator, type Page } from "@playwright/test";
+import { BasePage } from "./basePage";
+import { PageUrls } from "../testData/testData";
 
-export class SignInPage {
-  readonly page: Page;
+export class SignInPage extends BasePage {
+  
   readonly emailAddressInput: Locator;
   readonly passwordInput: Locator;
   readonly submitButtonSignIn: Locator;
@@ -11,6 +13,7 @@ export class SignInPage {
   readonly passwordErrorMaxMsg: Locator;
 
   constructor(page: Page) {
+    super(page);
     this.page = page;
     this.emailAddressInput = page.locator('input[name="email"]');
     this.passwordInput = page.locator('input[name="password"]');
@@ -23,7 +26,7 @@ export class SignInPage {
 
   //! Open Sign in page
   async goto(): Promise<void> {
-    await this.page.goto("https://qa-course-01.andersenlab.com/login");
+    await super.goto(PageUrls.SIGNIN);
   }
 
   //! Input fill
@@ -34,7 +37,7 @@ export class SignInPage {
     await this.passwordInput.fill(password);
   }
 
-  async submit() {
+  async submit(): Promise<void> {
     await this.submitButtonSignIn.click();
   }
 
