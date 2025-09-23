@@ -1,7 +1,8 @@
 import { expect, type Page, type Locator } from "@playwright/test";
+import { BasePage } from "./basePage";
+import { PageUrls } from "../testData/testData";
 
-export class UserProfilePage {
-  readonly page: Page;
+export class UserProfilePage extends BasePage {
   readonly logoHeader: Locator;
   readonly userPhoto: Locator;
   readonly userName: Locator;
@@ -33,7 +34,7 @@ export class UserProfilePage {
   readonly saveButton: Locator;
 
   constructor(page: Page) {
-    this.page = page;
+    super(page);
     // Profile page
     this.logoHeader = page.locator('img[alt="Logo"]');
     this.userPhoto = page.locator('img[alt=""]').first();
@@ -83,10 +84,12 @@ export class UserProfilePage {
     this.cancelButton = page.getByRole("button", { name: "Cancel" });
     this.saveButton = page.getByRole("button", { name: "Save" });
   }
-  // Methods
-  async goto(): Promise<void> {
-    await this.page.goto("https://qa-course-01.andersenlab.com/");
+
+  //! Methods
+  async goto() {
+    await super.goto(PageUrls.USER_PROFILE);
   }
+
   //! User Profile
   async verifyProfileLayout(): Promise<void> {
     await expect(this.logoHeader).toBeVisible();
@@ -108,7 +111,7 @@ export class UserProfilePage {
   async signOutSuccessfully(): Promise<void> {
     await this.signOutButton.click();
     await expect(this.page).toHaveURL(
-      "https://qa-course-01.andersenlab.com/login"
+      PageUrls.SIGNIN
     );
   }
 

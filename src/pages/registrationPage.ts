@@ -1,9 +1,9 @@
 import { expect, type Locator, type Page } from "@playwright/test";
-import { TestData, generateUniqueEmail } from "../testData/testData";
+import { PageUrls, TestData, generateUniqueEmail } from "../testData/testData";
+import { BasePage } from "./basePage";
 
-export class RegisterPage {
+export class RegisterPage extends BasePage{
   // Input elements
-  readonly page: Page;
   readonly firstnameInput: Locator;
   readonly lastnameInput: Locator;
   readonly emailInput: Locator;
@@ -31,8 +31,7 @@ export class RegisterPage {
   readonly submitButton: Locator;
 
   constructor(page: Page) {
-    this.page = page;
-
+    super(page);
     // Inputs locators
     this.firstnameInput = page.locator("input[name='firstName']");
     this.lastnameInput = page.locator("input[name='lastName']");
@@ -68,7 +67,7 @@ export class RegisterPage {
 
   // Page navigation
   async goto(): Promise<void> {
-    await this.page.goto("https://qa-course-01.andersenlab.com/registration");
+    await this.page.goto(PageUrls.REGISTER);
   }
 
   // Fill inputs

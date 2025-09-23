@@ -25,3 +25,9 @@ export enum TestDataSignin {
   PASSWORD_UNDER_MIN = "1234567",        // 7 characters
   PASSWORD_OVER_MAX = "123456789012345678901", // 21 characters
 }
+
+export enum PageUrls {
+  REGISTER = "https://qa-course-01.andersenlab.com/registration",
+  SIGNIN = "https://qa-course-01.andersenlab.com/login",
+  USER_PROFILE = "https://qa-course-01.andersenlab.com/"
+}
