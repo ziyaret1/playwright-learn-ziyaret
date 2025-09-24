@@ -1,109 +1,107 @@
-import { expect, test } from "@playwright/test";
-import { RegisterPage } from "../../src/pages/registrationPage";
+import { expect } from "@playwright/test";
 import { generateUniqueEmail, TestData } from "../../src/testData/testData";
+import { test } from '../../src/fixtures/fixture_register';
+
 
 test.describe("Password Suite", () => {
-  let register: RegisterPage;
-
-  test.beforeEach(async ({ page }) => {
-    register = new RegisterPage(page);
-    await register.goto();
-    await register.fillPassword("");
-    await register.fillConfirmPassword("");
-    await register.fillFirstname(TestData.FIRSTNAME);
-    await register.fillLastname(TestData.LASTNAME);
-    await register.fillDateOfBirth(TestData.DATE_OF_BIRTH);
-    await register.fillEmailInput(generateUniqueEmail());
+  test.beforeEach(async ({ registerPage }) => {
+    await registerPage.goto();
+    await registerPage.fillPassword("");
+    await registerPage.fillConfirmPassword("");
+    await registerPage.fillFirstname(TestData.FIRSTNAME);
+    await registerPage.fillLastname(TestData.LASTNAME);
+    await registerPage.fillDateOfBirth(TestData.DATE_OF_BIRTH);
+    await registerPage.fillEmailInput(generateUniqueEmail());
   });
 
   test("[AQAPRACT-526] Register with min Password length (8 characters)", async ({
-    page,
+    registerPage
   }) => {
     const passwordLenght8: string = "A".repeat(8);
-    await register.fillPassword(passwordLenght8);
-    await expect(register.passwordInput).toHaveValue(passwordLenght8);
-    await register.fillConfirmPassword(passwordLenght8);
-    await expect(register.passwordInput).toHaveValue(passwordLenght8);
-    await register.submitButton.click();
-    await expect(register.page).toHaveURL(
+    await registerPage.fillPassword(passwordLenght8);
+    await expect(registerPage.passwordInput).toHaveValue(passwordLenght8);
+    await registerPage.fillConfirmPassword(passwordLenght8);
+    await expect(registerPage.passwordInput).toHaveValue(passwordLenght8);
+    await registerPage.submitButton.click();
+    await expect(registerPage.getPage()).toHaveURL(
       "https://qa-course-01.andersenlab.com/login"
     );
   });
 
   test("[AQAPRACT-527] Register with max Password length (20 characters)", async ({
-    page,
+    registerPage
   }) => {
     const passwordLenght20: string = "A".repeat(20);
-    await register.fillPassword(passwordLenght20);
-    await expect(register.passwordInput).toHaveValue(passwordLenght20);
-    await register.fillConfirmPassword(passwordLenght20);
-    await expect(register.passwordInput).toHaveValue(passwordLenght20);
-    await register.submitButton.click();
-    await expect(register.page).toHaveURL(
+    await registerPage.fillPassword(passwordLenght20);
+    await expect(registerPage.passwordInput).toHaveValue(passwordLenght20);
+    await registerPage.fillConfirmPassword(passwordLenght20);
+    await expect(registerPage.passwordInput).toHaveValue(passwordLenght20);
+    await registerPage.submitButton.click();
+    await expect(registerPage.getPage()).toHaveURL(
       "https://qa-course-01.andersenlab.com/login"
     );
   });
 
   test("[AQAPRACT-528] Register with min-1 Password length (7 characters)", async ({
-    page,
+    registerPage
   }) => {
     const passwordLenght7: string = "A".repeat(7);
-    await register.fillPassword(passwordLenght7);
-    await expect(register.passwordInput).toHaveValue(passwordLenght7);
-    await register.invalidPasswordError();
-    await expect(register.passwordErrorMin).toBeVisible();
+    await registerPage.fillPassword(passwordLenght7);
+    await expect(registerPage.passwordInput).toHaveValue(passwordLenght7);
+    await registerPage.invalidPasswordError();
+    await expect(registerPage.passwordErrorMin).toBeVisible();
   });
 
   test("[AQAPRACT-529] Register with max+1 Password length (21 characters)", async ({
-    page,
+    registerPage
   }) => {
     const passwordLenghtMax: string = "A".repeat(21);
-    await register.fillPassword(passwordLenghtMax);
-    await expect(register.passwordInput).toHaveValue(passwordLenghtMax);
-    await register.invalidPasswordError();
-    await expect(register.passwordErrorMax).toBeVisible();
+    await registerPage.fillPassword(passwordLenghtMax);
+    await expect(registerPage.passwordInput).toHaveValue(passwordLenghtMax);
+    await registerPage.invalidPasswordError();
+    await expect(registerPage.passwordErrorMax).toBeVisible();
   });
 
   test("[AQAPRACT-530] Register with empty Password field", async ({
-    page,
+    registerPage
   }) => {
     const emptyPassword: string = "";
-    await register.fillPassword(emptyPassword);
-    await expect(register.passwordInput).toHaveValue("");
-    await expect(register.submitButton).toBeDisabled();
+    await registerPage.fillPassword(emptyPassword);
+    await expect(registerPage.passwordInput).toHaveValue("");
+    await expect(registerPage.submitButton).toBeDisabled();
   });
 
   // Confirm Password Suite
 
   test("[AQAPRACT-531] Register with equal data Password and Confirm password fields", async ({
-    page,
+    registerPage
   }) => {
     const passwordData: string = "TestConf11";
-    await register.fillPassword(passwordData);
-    await register.fillConfirmPassword(passwordData);
-    await register.submitButton.click();
-    await expect(register.page).toHaveURL("https://qa-course-01.andersenlab.com/login");
+    await registerPage.fillPassword(passwordData);
+    await registerPage.fillConfirmPassword(passwordData);
+    await registerPage.submitButton.click();
+    await expect(registerPage.getPage()).toHaveURL("https://qa-course-01.andersenlab.com/login");
   });
 
 
   test("[AQAPRACT-532] Register with different data in Password and Confirm password fields", async ({
-    page,
+    registerPage
   }) => {
-    await register.fillPassword("TestConf11");
-    await register.fillConfirmPassword("TestConf12");
-    await expect(register.submitButton).toBeDisabled();
-    await expect(register.confirmPasswordError).toBeVisible();
+    await registerPage.fillPassword("TestConf11");
+    await registerPage.fillConfirmPassword("TestConf12");
+    await expect(registerPage.submitButton).toBeDisabled();
+    await expect(registerPage.confirmPasswordError).toBeVisible();
   });
 
   
   test("[AQAPRACT-533] Register with empty Confirm password field", async ({
-    page,
+    registerPage
   }) => {
     const passwordData: string = "TestConf11";
-    await register.fillPassword(passwordData);
+    await registerPage.fillPassword(passwordData);
     const emptyConfirmPass: string = "";
-    await register.fillConfirmPassword(emptyConfirmPass);
-    await expect(register.emptyConfirmPasswordError).toBeVisible();
-    await expect(register.emptyConfirmPasswordError).toHaveText("Required");
+    await registerPage.fillConfirmPassword(emptyConfirmPass);
+    await expect(registerPage.emptyConfirmPasswordError).toBeVisible();
+    await expect(registerPage.emptyConfirmPasswordError).toHaveText("Required");
   });
 });

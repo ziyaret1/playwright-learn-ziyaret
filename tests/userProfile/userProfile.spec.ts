@@ -1,52 +1,44 @@
-import { test, expect } from "@playwright/test";
-import { UserProfilePage } from "../../src/pages/userProfilePage";
-import { SignInPage } from "../../src/pages/signInPage";
+import { expect } from "@playwright/test";
+import { test } from '../../src/fixtures/fixture_signIn';
 import { PageUrls, TestDataSignin } from "../../src/testData/testData";
-
-let userProfilePage: UserProfilePage;
-let signIn: SignInPage;
 
 //! User Profile Suite
 test.describe("User Profile Suite", async () => {
-  test.beforeEach(async ({ page }) => {
-    signIn = new SignInPage(page);
-    await signIn.goto();
-    await signIn.fillEmailAddress(TestDataSignin.EMAIL);
-    await signIn.fillPasswordInput(TestDataSignin.PASSWORD);
-    await signIn.submit();
-    userProfilePage = new UserProfilePage(page);
+  test.beforeEach(async ({ signInPage }) => {
+    await signInPage.goto();
+    await signInPage.fillEmailAddress(TestDataSignin.EMAIL);
+    await signInPage.fillPasswordInput(TestDataSignin.PASSWORD);
+    await signInPage.submit();
   });
 
-  test('[AQAPRACT-545] Validation of "User profile" page layout', async () => {
+  test('[AQAPRACT-545] Validation of "User profile" page layout', async ({userProfilePage}) => {
     await userProfilePage.verifyProfileLayout();
   });
 
-  test("[AQAPRACT-546] Successful Sign Out", async () => {
+  test("[AQAPRACT-546] Successful Sign Out", async ({userProfilePage}) => {
     await userProfilePage.signOutSuccessfully();
   });
 
-  test('[AQAPRACT-547] "AQA Practice" dropdown options validation', async () => {
+  test('[AQAPRACT-547] "AQA Practice" dropdown options validation', async ({userProfilePage}) => {
     await userProfilePage.verifyDropdownOptions();
   });
 });
 
 //! Edit Profile Suite
 test.describe("Edit Profile Suite", async () => {
-  test.beforeEach(async ({ page }) => {
-    signIn = new SignInPage(page);
-    await signIn.goto();
-    await signIn.fillEmailAddress(TestDataSignin.EMAIL);
-    await signIn.fillPasswordInput(TestDataSignin.PASSWORD);
-    await signIn.submit();
-    userProfilePage = new UserProfilePage(page);
+  test.beforeEach(async ({ signInPage }) => {
+    await signInPage.goto();
+    await signInPage.fillEmailAddress(TestDataSignin.EMAIL);
+    await signInPage.fillPasswordInput(TestDataSignin.PASSWORD);
+    await signInPage.submit();
   });
 
-  test('[AQAPRACT-548] "Edit personal information" flyout available', async () => {
+  test('[AQAPRACT-548] "Edit personal information" flyout available', async ({userProfilePage}) => {
     await userProfilePage.editButton.click();
     await userProfilePage.verifyEditPersonalInfoModal();
   });
 
-  test("[AQAPRACT-549] Edit 'First name' on User profile flyout", async () => {
+  test("[AQAPRACT-549] Edit 'First name' on User profile flyout", async ({userProfilePage}) => {
     await userProfilePage.editButton.click();
     const newName: string = "NewAQA";
     await userProfilePage.updateFirstname(newName);
@@ -54,7 +46,7 @@ test.describe("Edit Profile Suite", async () => {
     await expect(userProfilePage.userName).toContainText(newName);
   });
 
-  test('[AQAPRACT-550] Edit "Last name" on User profile flyout', async () => {
+  test('[AQAPRACT-550] Edit "Last name" on User profile flyout', async ({userProfilePage}) => {
     await userProfilePage.editButton.click();
     const newLastName = "Test";
     await userProfilePage.updateLastname(newLastName);
@@ -62,7 +54,7 @@ test.describe("Edit Profile Suite", async () => {
     await expect(userProfilePage.userName).toContainText(newLastName);
   });
 
-  test('[AQAPRACT-551] Edit "Email" on User profile flyout', async () => {
+  test('[AQAPRACT-551] Edit "Email" on User profile flyout', async ({userProfilePage}) => {
     await userProfilePage.editButton.click();
     const newEmail: string = "ziqa1@gmail.com";
     await userProfilePage.emailInput.fill(newEmail);
@@ -72,7 +64,7 @@ test.describe("Edit Profile Suite", async () => {
     await userProfilePage.clickSave();
   });
 
-  test('[AQAPRACT-552] Edit "Date of Birth" on User profile flyout', async () => {
+  test('[AQAPRACT-552] Edit "Date of Birth" on User profile flyout', async ({userProfilePage}) => {
     await userProfilePage.editButton.click();
     const newDate = "01/01/2000";
     await userProfilePage.updateDateOfBirth(newDate);
@@ -80,21 +72,21 @@ test.describe("Edit Profile Suite", async () => {
     await expect(userProfilePage.dateOfBirth).toHaveText(newDate);
   });
 
-  test("[AQAPRACT-553] Cancel editing the data on the flyout (after the data is edited)", async () => {
+  test("[AQAPRACT-553] Cancel editing the data on the flyout (after the data is edited)", async ({userProfilePage}) => {
     await userProfilePage.editButton.click();
     await userProfilePage.updateFirstname("TemporaryName");
     await userProfilePage.clickCancel();
     await expect(userProfilePage.userName).not.toContainText("TemporaryName");
   });
 
-  test("[AQAPRACT-554] Cancel editing the data on the flyout (without editing)", async () => {
+  test("[AQAPRACT-554] Cancel editing the data on the flyout (without editing)", async ({userProfilePage}) => {
     await userProfilePage.editButton.click();
     await userProfilePage.clickCancel();
     await expect(userProfilePage.editPersonalInfoTitle).toHaveCount(0);
     await expect(userProfilePage.getPage()).toHaveURL(PageUrls.USER_PROFILE)
   });
 
-  test('[AQAPRACT-555] Close "Edit personal information" flyout by "X" button', async () => {
+  test('[AQAPRACT-555] Close "Edit personal information" flyout by "X" button', async ({userProfilePage}) => {
     await userProfilePage.editButton.click();
     const originalFirstName = await userProfilePage.firstNameInput.inputValue();
     await userProfilePage.updateFirstname("TemporaryName");
