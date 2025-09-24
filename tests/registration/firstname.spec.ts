@@ -2,13 +2,8 @@ import { expect } from "@playwright/test";
 import {test} from '../../src/fixtures/fixture_register';
 import { generateUniqueEmail, TestData } from "../../src/testData/testData";
 
-// import { RegisterPage } from "../../src/pages/registrationPage";
- 
 test.describe("First name Suite", () => {
-  // let register: RegisterPage;
-
   test.beforeEach(async ({ registerPage }) => {
-    // register = new RegisterPage(page);
     await registerPage.goto();
     await registerPage.fillLastname(TestData.LASTNAME);
     await registerPage.fillDateOfBirth(TestData.DATE_OF_BIRTH);

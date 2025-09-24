@@ -13,7 +13,6 @@ test.describe("Email Suite", () => {
     await registerPage.fillConfirmPassword(TestData.PASSWORD);
   });
 
-
   test('[AQAPRACT-523] Register with empty "Email" field', async ({ registerPage }) => {
     await registerPage.fillEmailInput("");
     await expect(registerPage.submitButton).toBeDisabled();

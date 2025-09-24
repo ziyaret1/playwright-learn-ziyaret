@@ -3,10 +3,7 @@ import {test} from '../../src/fixtures/fixture_register';
 import { generateUniqueEmail, TestData } from "../../src/testData/testData";
 
 test.describe("Last name Suite", () => {
-  // let register: RegisterPage;
-
   test.beforeEach(async ({ registerPage }) => {
-    // registerPage = new RegisterPage(page);
     await registerPage.goto();
     await registerPage.fillFirstname(TestData.FIRSTNAME);
     await registerPage.fillLastname(TestData.LASTNAME);

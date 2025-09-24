@@ -1,6 +1,5 @@
 import { expect } from "@playwright/test";
 import { test } from '../../src/fixtures/fixture_signIn';
-// import { SignInPage } from "../../src/pages/signInPage";
 import { TestDataSignin } from "../../src/testData/testData";
 
 
