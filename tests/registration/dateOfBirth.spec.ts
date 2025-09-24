@@ -1,58 +1,55 @@
-import { expect, test } from "@playwright/test";
-import { RegisterPage } from "../../src/pages/registrationPage";
+import { expect } from "@playwright/test";
+import { test } from '../../src/fixtures/fixture_register';
 import { generateUniqueEmail, TestData } from "../../src/testData/testData";
 
 test.describe("Date of Birth Suite", () => {
-  let register: RegisterPage;
-
-  test.beforeEach(async ({ page }) => {
-    register = new RegisterPage(page);
-    await register.goto();
-    await register.fillDateOfBirth("");
-    await register.fillFirstname(TestData.FIRSTNAME);
-    await register.fillLastname(TestData.LASTNAME);
-    await register.fillPassword(TestData.PASSWORD);
-    await register.fillConfirmPassword(TestData.PASSWORD);
-    await register.fillEmailInput(generateUniqueEmail());
+  test.beforeEach(async ({ registerPage }) => {
+    await registerPage.goto();
+    await registerPage.fillDateOfBirth("");
+    await registerPage.fillFirstname(TestData.FIRSTNAME);
+    await registerPage.fillLastname(TestData.LASTNAME);
+    await registerPage.fillPassword(TestData.PASSWORD);
+    await registerPage.fillConfirmPassword(TestData.PASSWORD);
+    await registerPage.fillEmailInput(generateUniqueEmail());
   });
 
   test('[AQAPRACT-519] Register with empty "Date of birth" field', async ({
-    page,
+   registerPage
   }) => {
-    await register.fillDateOfBirth("");
-    await expect(register.dateOfBirthInput).toHaveValue("");
-    await expect(register.submitButton).toBeDisabled();
+    await registerPage.fillDateOfBirth("");
+    await expect(registerPage.dateOfBirthInput).toHaveValue("");
+    await expect(registerPage.submitButton).toBeDisabled();
   });
 
   test("[AQAPRACT-520] The elements on the calendar picker are available", async ({
-    page,
+   registerPage
   }) => {
-    await register.openCalendar();
+    await registerPage.openCalendar();
 
     // Check dropdowns visible
-    await expect(register.yearDropdown).toBeVisible();
-    await expect(register.monthDropdown).toBeVisible();
+    await expect(registerPage.yearDropdown).toBeVisible();
+    await expect(registerPage.monthDropdown).toBeVisible();
 
-    await expect(register.dayOption.first()).toBeVisible(); // Check day elements visible
-    await register.selectDate("2000", "January", "15"); // Select any date
-    await expect(register.dateOfBirthInput).toHaveValue("01/15/2000"); // Verify input value (input format: MM/DD/YYYY)
+    await expect(registerPage.dayOption.first()).toBeVisible(); // Check day elements visible
+    await registerPage.selectDate("2000", "January", "15"); // Select any date
+    await expect(registerPage.dateOfBirthInput).toHaveValue("01/15/2000"); // Verify input value (input format: MM/DD/YYYY)
   });
 
   test('[AQAPRACT-521] The date is filled in manually in the "Date of birth" field', async ({
-    page,
+    registerPage
   }) => {
-    await register.openCalendar();
-    await expect(register.dateCalendar).toBeVisible();
+    await registerPage.openCalendar();
+    await expect(registerPage.dateCalendar).toBeVisible();
 
     const manualDate = "01/15/2000";
-    await register.enterDateOfBirthManually(manualDate);
-    await expect(register.dateOfBirthInput).toHaveValue(manualDate);
+    await registerPage.enterDateOfBirthManually(manualDate);
+    await expect(registerPage.dateOfBirthInput).toHaveValue(manualDate);
   });
 
   test('[AQAPRACT-522] It`s impossible to register with the "date of birth" in the future', async ({
-    page,
+    registerPage
   }) => {
-    await register.openCalendar();
+    await registerPage.openCalendar();
 
     // Future data preparation
     const futureDate = new Date();
@@ -62,7 +59,7 @@ test.describe("Date of Birth Suite", () => {
     const day = futureDate.getDate().toString().padStart(2, "0");
 
     // Add future date
-    await register.selectFutureDate(year, month, day);
-    await expect(register.submitButton).toBeDisabled();
+    await registerPage.selectFutureDate(year, month, day);
+    await expect(registerPage.submitButton).toBeDisabled();
   });
 });
