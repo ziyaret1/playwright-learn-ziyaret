@@ -59,7 +59,7 @@ test.describe("Calendar Suite", () => {
     await registerPage.selectMonth('October');
     await registerPage.selectDay("16");
 
-    await expect(registerPage.dateOfBirthInput).toHaveValue("03/15/1990");
+    await expect(registerPage.dateOfBirthInput).toHaveValue("10/16/1990");
     await expect(registerPage.dateCalendar).not.toBeVisible();             // Should close automatically
   });
 
