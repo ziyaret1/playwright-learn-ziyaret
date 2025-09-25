@@ -18,7 +18,7 @@ test.describe('Edit Profile "First name"', () => {
         await userProfilePage.firstNameInput.fill('');
         await expect(userProfilePage.firstNameInput).toHaveValue('');
         await userProfilePage.lastNameInput.click();
-        await expect(userProfilePage.requiredErrorMessage).toBeVisible();
+        await expect(userProfilePage.firstnameRequiredErrorMessage).toBeVisible();
         await expect(userProfilePage.saveButton).toBeDisabled();
     });
 
@@ -49,6 +49,6 @@ test.describe('Edit Profile "First name"', () => {
     test('[AQAPRACT-560] Edit the "First name" field with spaces', async({userProfilePage}) =>{
         await userProfilePage.firstNameInput.fill('   ');
         await userProfilePage.saveButton.click();
-        await expect(userProfilePage.requiredErrorMessage).toHaveText('The field is required');
+        await expect(userProfilePage.firstnameRequiredErrorMessage).toHaveText('The field is required');
     })
 })
