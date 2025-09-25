@@ -26,6 +26,8 @@ export class UserProfilePage extends BasePage {
   readonly editPersonalInfoTitle: Locator;
   readonly editPersonalInfoText: Locator;
   readonly firstNameInput: Locator;
+  readonly requiredErrorMessage: Locator;
+  readonly lengthErrorMessage: Locator;
   readonly lastNameInput: Locator;
   readonly emailInput: Locator;
   readonly emailInfo: Locator;
@@ -75,6 +77,8 @@ export class UserProfilePage extends BasePage {
       "Please, provide your personal information in English."
     );
     this.firstNameInput = page.locator('input[name="firstName"]');
+    this.requiredErrorMessage = page.locator('span.text-rose-500:text("Required")');
+    this.lengthErrorMessage = page.getByText("The value length shouldn't exceed 255 symbols.");
     this.lastNameInput = page.locator('input[name="lastName"]');
     this.emailInput = page.locator('input[name="email"]');
     this.emailInfo = page
@@ -85,7 +89,7 @@ export class UserProfilePage extends BasePage {
     this.saveButton = page.getByRole("button", { name: "Save" });
   }
 
-  //! Methods
+  //! Methods 
   async goto(): Promise<void> {
     await super.goto(PageUrls.USER_PROFILE);
   }

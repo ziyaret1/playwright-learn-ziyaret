@@ -13,7 +13,7 @@ test.describe("User Profile Suite", async () => {
 
   test('[AQAPRACT-545] Validation of "User profile" page layout', async ({userProfilePage}) => {
     await userProfilePage.verifyProfileLayout();
-  });
+  }); 
 
   test("[AQAPRACT-546] Successful Sign Out", async ({userProfilePage}) => {
     await userProfilePage.signOutSuccessfully();
