@@ -22,14 +22,14 @@ test.describe('Edit Profile "First name"', () => {
         await expect(userProfilePage.saveButton).toBeDisabled();
     });
 
-    test('[AQAPRACT-557] ', async({userProfilePage}) => {
+    test('[AQAPRACT-557] Edit the "First name" with 1 character length', async({userProfilePage}) => {
         await userProfilePage.firstNameInput.fill('A');
         await expect(userProfilePage.firstNameInput).toHaveValue('A');
         await userProfilePage.saveButton.click();
         await expect(userProfilePage.editPersonalInfoTitle).not.toBeVisible();
     });
 
-    test('[AQAPRACT-558]', async({userProfilePage}) => {
+    test('[AQAPRACT-558] Edit the "First name" with 255 character length', async({userProfilePage}) => {
         const firstnameLength255: string = 'A'.repeat(255);
         await userProfilePage.firstNameInput.fill(firstnameLength255);
         await expect(userProfilePage.firstNameInput).toHaveValue(firstnameLength255);
@@ -37,7 +37,7 @@ test.describe('Edit Profile "First name"', () => {
         await expect(userProfilePage.editPersonalInfoTitle).not.toBeVisible();
     });
 
-    test('[AQAPRACT-559]', async({userProfilePage}) => {
+    test('[AQAPRACT-559] Edit the "First name" with 256 character length', async({userProfilePage}) => {
         const firstnameLength256: string = 'A'.repeat(256);
         await userProfilePage.firstNameInput.fill(firstnameLength256);
         await expect(userProfilePage.firstNameInput).toHaveValue(firstnameLength256);
@@ -46,7 +46,7 @@ test.describe('Edit Profile "First name"', () => {
         await expect(userProfilePage.lengthErrorMessage).toBeVisible();
     });
 
-    test('[AQAPRACT-560]', async({userProfilePage}) =>{
+    test('[AQAPRACT-560] Edit the "First name" field with spaces', async({userProfilePage}) =>{
         await userProfilePage.firstNameInput.fill('   ');
         await userProfilePage.saveButton.click();
         await expect(userProfilePage.requiredErrorMessage).toHaveText('The field is required');
