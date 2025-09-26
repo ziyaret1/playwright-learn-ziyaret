@@ -11,8 +11,7 @@ export default [
                 ecmaVersion: 'latest',
                 sourceType: 'module',
             },
-            globals: {
-            },
+            globals: {},
         },
         plugins: {
             '@typescript-eslint': pluginTs,
