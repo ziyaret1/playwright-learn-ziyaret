@@ -12,7 +12,6 @@ export default [
                 sourceType: 'module',
             },
             globals: {
-                // buraya global dəyişənləri əlavə edə bilərsən
             },
         },
         plugins: {
