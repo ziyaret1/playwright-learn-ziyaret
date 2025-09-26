@@ -4,6 +4,8 @@ import { PageUrls } from '../testData/testData';
 export class UserProfilePage extends BasePage {
     readonly logoHeader: Locator;
     readonly userPhoto: Locator;
+    readonly userUploadInput: Locator;
+    readonly successUploadModal: Locator;
     readonly userName: Locator;
     readonly position: Locator;
     readonly email: Locator;
@@ -44,6 +46,8 @@ export class UserProfilePage extends BasePage {
         // Profile page
         this.logoHeader = page.locator('img[alt="Logo"]');
         this.userPhoto = page.locator('img[alt=""]').first();
+        this.userUploadInput = page.locator('input[type="file"]')
+        this.successUploadModal = page.locator('section.max-w-\\[480px\\]');
         this.userName = page.locator('h1');
         this.position = page
             .locator('div.flex.flex-col.grow >> text=Position')
