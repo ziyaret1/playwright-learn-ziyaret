@@ -26,6 +26,8 @@ export class UserProfilePage extends BasePage {
   readonly editPersonalInfoTitle: Locator;
   readonly editPersonalInfoText: Locator;
   readonly firstNameInput: Locator;
+  readonly inputRequiredErrorMessage: Locator;
+  readonly lengthErrorMessage: Locator;
   readonly lastNameInput: Locator;
   readonly emailInput: Locator;
   readonly emailInfo: Locator;
@@ -56,8 +58,12 @@ export class UserProfilePage extends BasePage {
     this.signOutButton = page.locator('div:text("Sign Out")');
     this.footerLogo = page.locator('img[alt="Company Logo"]');
     this.footerContact = page.getByText("Contact us", { exact: true });
-    this.footerPhone = page.locator('img[alt="Phone"]').locator("xpath=following-sibling::div");
-    this.footerEmail = page.locator('img[alt="Email"]').locator("xpath=following-sibling::div");
+    this.footerPhone = page
+      .locator('img[alt="Phone"]')
+      .locator("xpath=following-sibling::div");
+    this.footerEmail = page
+      .locator('img[alt="Email"]')
+      .locator("xpath=following-sibling::div");
     // Dropdown menu
     this.dropdownOptionSelect = page.getByText("Select", { exact: true });
     this.dropdownOptionDragDrop = page.getByText("Drag & Drop", {
@@ -75,6 +81,12 @@ export class UserProfilePage extends BasePage {
       "Please, provide your personal information in English."
     );
     this.firstNameInput = page.locator('input[name="firstName"]');
+    this.inputRequiredErrorMessage = page.locator(
+      'span.text-rose-500:text("Required")'
+    );
+    this.lengthErrorMessage = page.getByText(
+      "The value length shouldn't exceed 255 symbols."
+    );
     this.lastNameInput = page.locator('input[name="lastName"]');
     this.emailInput = page.locator('input[name="email"]');
     this.emailInfo = page
@@ -110,9 +122,7 @@ export class UserProfilePage extends BasePage {
 
   async signOutSuccessfully(): Promise<void> {
     await this.signOutButton.click();
-    await expect(this.page).toHaveURL(
-      PageUrls.SIGNIN
-    );
+    await expect(this.page).toHaveURL(PageUrls.SIGNIN);
   }
 
   async verifyDropdownOptions() {
