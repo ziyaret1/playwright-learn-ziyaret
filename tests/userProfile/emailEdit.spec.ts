@@ -19,22 +19,19 @@ test.describe('Edit Email Suite', () => {
         await expect(userProfilePage.saveButton).toBeDisabled();
     });
     test('[AQAPRACT-570] Edit with invalid email formats', async ({ userProfilePage }) => {
-        const invalidEmails = [
-            InvalidEmail.SIMPLE,
-            InvalidEmail.DOUBLE_AT,
-            InvalidEmail.SPACE_IN_LOCAL,
-            InvalidEmail.INVALID_CHAR,
-        ];
-        for (const email of invalidEmails) {
-            await userProfilePage.emailInput.fill(email);
-            await userProfilePage.emailInput.blur();
+       const invalidEmails = [
+        InvalidEmail.SIMPLE,
+        InvalidEmail.DOUBLE_AT,
+        InvalidEmail.SPACE_IN_LOCAL,
+        InvalidEmail.INVALID_CHAR,
+    ];
 
-            await expect(userProfilePage.emailInput).toHaveValue(email);
-            await expect(
-                userProfilePage.getPage().getByText('Invalid email address')
-            ).toBeVisible();
-            await expect(userProfilePage.saveButton).toBeDisabled();
-            await userProfilePage.emailInput.fill('');
-        }
+    for (const emailValue of invalidEmails) {
+        await userProfilePage.emailInput.fill(emailValue);
+        await userProfilePage.firstNameInput.click()
+        await expect(userProfilePage.emailErrorMessage).toHaveText('Invalid email address');
+        await expect(userProfilePage.emailInput).toHaveValue(emailValue);
+        await expect(userProfilePage.saveButton).toBeDisabled();
+    }
     });
 });
