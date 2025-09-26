@@ -1,3 +1,5 @@
+import path from 'path';
+
 export enum TestData {
     FIRSTNAME = 'TestAQA',
     LASTNAME = 'TestAQA',
@@ -28,3 +30,6 @@ export enum PageUrls {
     SIGNIN = 'https://qa-course-01.andersenlab.com/login',
     USER_PROFILE = 'https://qa-course-01.andersenlab.com/',
 }
+export const TestFiles = {
+  PHOTO: path.resolve('src/testData/files/testImage.png'),
+};
