@@ -1,7 +1,6 @@
 import { test } from '../../src/fixtures/fixture_signIn';
 import { expect } from '@playwright/test';
 import { TestDataSignin, TestFiles } from '../../src/testData/testData';
-import path from 'path';
 
 test.describe('Edit Profile "First name"', () => {
     test.beforeEach(async ({ signInPage, userProfilePage }) => {
