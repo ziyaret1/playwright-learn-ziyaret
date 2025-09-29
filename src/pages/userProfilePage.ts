@@ -47,7 +47,7 @@ export class UserProfilePage extends BasePage {
         // Profile page
         this.logoHeader = page.locator('img[alt="Logo"]');
         this.userPhoto = page.locator('img[alt=""]').first();
-        this.userUploadInput = page.locator('input[type="file"]')
+        this.userUploadInput = page.locator('input[type="file"]');
         this.successUploadModal = page.locator('section.max-w-\\[480px\\]');
         this.userName = page.locator('h1');
         this.position = page

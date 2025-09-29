@@ -1,7 +1,6 @@
 import { test } from '../../src/fixtures/fixture_signIn';
 import { expect } from '@playwright/test';
 import { TestDataSignin, InvalidEmail } from '../../src/testData/testData';
-
 test.describe('Edit Email Suite', () => {
     test.beforeEach(async ({ userProfilePage, signInPage }) => {
         await signInPage.goto();
@@ -19,19 +18,18 @@ test.describe('Edit Email Suite', () => {
         await expect(userProfilePage.saveButton).toBeDisabled();
     });
     test('[AQAPRACT-570] Edit with invalid email formats', async ({ userProfilePage }) => {
-       const invalidEmails = [
-        InvalidEmail.SIMPLE,
-        InvalidEmail.DOUBLE_AT,
-        InvalidEmail.SPACE_IN_LOCAL,
-        InvalidEmail.INVALID_CHAR,
-    ];
-
-    for (const emailValue of invalidEmails) {
-        await userProfilePage.emailInput.fill(emailValue);
-        await userProfilePage.firstNameInput.click()
-        await expect(userProfilePage.emailErrorMessage).toHaveText('Invalid email address');
-        await expect(userProfilePage.emailInput).toHaveValue(emailValue);
-        await expect(userProfilePage.saveButton).toBeDisabled();
-    }
+        const invalidEmails = [
+            InvalidEmail.SIMPLE,
+            InvalidEmail.DOUBLE_AT,
+            InvalidEmail.SPACE_IN_LOCAL,
+            InvalidEmail.INVALID_CHAR,
+        ];
+        for (const emailValue of invalidEmails) {
+            await userProfilePage.emailInput.fill(emailValue);
+            await userProfilePage.firstNameInput.click();
+            await expect(userProfilePage.emailErrorMessage).toHaveText('Invalid email address');
+            await expect(userProfilePage.emailInput).toHaveValue(emailValue);
+            await expect(userProfilePage.saveButton).toBeDisabled();
+        }
     });
 });
