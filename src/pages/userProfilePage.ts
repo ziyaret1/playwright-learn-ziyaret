@@ -9,6 +9,7 @@ export class UserProfilePage extends BasePage {
     readonly userName: Locator;
     readonly position: Locator;
     readonly email: Locator;
+    readonly emailErrorMessage: Locator;
     readonly technologies: Locator;
     readonly dateOfBirth: Locator;
     readonly editButton: Locator;
@@ -55,6 +56,7 @@ export class UserProfilePage extends BasePage {
         this.email = page
             .locator('div.flex.flex-col.grow >> text=E-mail')
             .locator('xpath=following-sibling::div[1]');
+        this.emailErrorMessage = page.locator('span.text-rose-500');
         this.technologies = page
             .locator('div.flex.flex-col.grow >> text=Technologies')
             .locator('xpath=following-sibling::div[1]');
