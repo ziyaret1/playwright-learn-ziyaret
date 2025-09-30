@@ -28,8 +28,8 @@ test.describe('AQA Practice - Select Suite', () => {
         await expect(aqaPractice.selectCountry).toBeVisible();
         await expect(aqaPractice.selectLanguage).toBeVisible();
         await expect(aqaPractice.selectType).toBeVisible();
-        await expect(aqaPractice.startDate).toBeVisible();
-        await expect(aqaPractice.endDate).toBeVisible();
+        await expect(aqaPractice.startDateInput).toBeVisible();
+        await expect(aqaPractice.endDateInput).toBeVisible();
         await expect(aqaPractice.selectCoursesSection).toBeVisible();
         await expect(aqaPractice.searchButton).toHaveClass(/bg-\[#EFEFF0\]/);
     });

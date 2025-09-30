@@ -16,9 +16,8 @@ export class AqaPractice extends BasePage {
     readonly selectType: Locator;
     readonly selectCoursesSection: Locator;
     readonly searchButton: Locator;
-    // Calendars and items for select date
-    readonly startDate: Locator;
-    readonly endDate: Locator;
+    readonly startDateInput: Locator;
+    readonly endDateInput: Locator;
     // Search result
     readonly searchResultsTitle: Locator;
     readonly courseCards: Locator;
@@ -26,7 +25,7 @@ export class AqaPractice extends BasePage {
     readonly courseName: Locator;
     readonly viewButton: Locator;
     // Select Course from list
-    readonly multipleSelectionBtn: Locator;
+    readonly selectionCourses: Locator;
     // No result message
     readonly noResultMessage: Locator;
 
@@ -45,10 +44,10 @@ export class AqaPractice extends BasePage {
         this.selectCountry = page.locator('select[title="Select country"]');
         this.selectLanguage = page.locator('#SelectLanguage');
         this.selectType = page.locator('select[title="Select type"]');
-        this.startDate = page.locator('input[title="Start date"]');
-        this.endDate = page.locator('input[title="End date"]');
+        this.startDateInput = page.locator('input[title="Start date"]');
+        this.endDateInput = page.locator('input[title="End date"]');
         this.selectCoursesSection = page.locator('h2', { hasText: 'Select courses' });
-        this.multipleSelectionBtn = page.locator('#MultipleSelect');
+        this.selectionCourses = page.locator('#MultipleSelect');
         this.searchButton = page.locator('button[name="SelectPageSearchButton"]');
         // Search results
         this.searchResultsTitle = page.locator('h1', { hasText: 'Search results' });
@@ -80,11 +79,11 @@ export class AqaPractice extends BasePage {
         await this.searchButton.click();
     }
     async selectSingleCourse(course: string): Promise<void> {
-        await this.multipleSelectionBtn.selectOption({ label: course });
+        await this.selectionCourses.selectOption({ label: course });
     }
     async selectMultipleCourses(courses: string[]): Promise<void> {
         for (const course of courses) {
-            await this.multipleSelectionBtn.selectOption({ label: course });
+            await this.selectionCourses.selectOption({ label: course });
         }
     }
 }
