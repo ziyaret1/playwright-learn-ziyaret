@@ -21,9 +21,9 @@ export default defineConfig({
     workers: process.env.CI ? 1 : undefined,
     /* Reporter to use. See https://playwright.dev/docs/test-reporters */
     reporter: [
-  ['list'],
-  ['allure-playwright', { outputFolder: 'allure-results', detail: true }]
-],
+    ['list'],
+    ['allure-playwright']
+  ],
     /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
     use: {
         /* Base URL to use in actions like `await page.goto('/')`. */
