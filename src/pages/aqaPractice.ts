@@ -1,7 +1,6 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 import { PageUrls } from '../testData/testData';
 import { BasePage } from './basePage';
-
 export class AqaPractice extends BasePage {
     readonly aqaPracticeDropdown: Locator;
     readonly selectItem: Locator;
@@ -28,7 +27,6 @@ export class AqaPractice extends BasePage {
     readonly selectionCourses: Locator;
     // No result message
     readonly noResultMessage: Locator;
-
     constructor(page: Page) {
         super(page);
         this.aqaPracticeDropdown = page.locator('div.flex.cursor-pointer:has-text("AQA Practice")');

@@ -1,7 +1,6 @@
 import { expect } from '@playwright/test';
 import { test } from '../../../src/fixtures/fixture_signIn';
 import { PageUrls, TestDataSignin } from '../../../src/testData/testData';
-
 test.describe('AQA Practice - Select Suite', () => {
     test.beforeEach(async ({ userProfilePage, signInPage, aqaPractice }) => {
         await signInPage.goto();
@@ -84,7 +83,6 @@ test.describe('AQA Practice - Select Suite', () => {
         await expect(aqaPractice.getPage()).toHaveURL(/search_results/);
         await expect(aqaPractice.searchResultsTitle).toBeVisible();
     });
-
     test('[AQAPRACT-582]  Multiselection for course from the Select courses list', async ({
         aqaPractice,
     }) => {
