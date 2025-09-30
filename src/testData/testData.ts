@@ -28,6 +28,9 @@ export enum PageUrls {
     REGISTER = 'https://qa-course-01.andersenlab.com/registration',
     SIGNIN = 'https://qa-course-01.andersenlab.com/login',
     USER_PROFILE = 'https://qa-course-01.andersenlab.com/',
+    SELECT_COURSES = 'https://qa-course-01.andersenlab.com/select',
+    DRAG_AND_DROP = 'https://qa-course-01.andersenlab.com/dragndrop',
+    ACTIONS_AND_ALERTS = 'https://qa-course-01.andersenlab.com/actions'
 }
 export const TestFiles = {
     PHOTO: path.resolve('src/testData/files/testImage.png'),
