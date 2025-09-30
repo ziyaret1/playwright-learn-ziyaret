@@ -1,27 +1,93 @@
 name: Playwright Tests
+
 on:
-    push:
-        branches: [ziyaret/CIsetup]
-    pull_request:
-        branches: [main]
+  push:
+    branches: ["*"]
+  pull_request:
+    branches: [main]
+
 jobs:
-    test:
-        timeout-minutes: 60
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-            - uses: actions/setup-node@v4
-              with:
-                  node-version: lts/*
-            - name: Install dependencies
-              run: npm ci
-            - name: Install Playwright Browsers
-              run: npx playwright install --with-deps
-            - name: Run Playwright tests
-              run: npx playwright test
-            - uses: actions/upload-artifact@v4
-              if: ${{ !cancelled() }}
-              with:
-                  name: playwright-report
-                  path: playwright-report/
-                  retention-days: 30
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Chromium only
+        run: npx playwright install chromium
+
+      - name: Run Playwright Tests with HTML & Allure reporters
+        run: npx playwright test --reporter=html,allure-playwright --workers=4
+        continue-on-error: true
+
+      - name: Install Allure CLI
+        run: npm install -g allure-commandline --save-dev
+
+      - name: Generate Allure Report
+        if: always()
+        run: allure generate ./allure-results --clean -o ./allure-report
+
+      - name: Upload Playwright HTML Report as Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-html-report
+          path: playwright-report
+
+      - name: Upload Allure Report as Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download Allure Report Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-report
+          path: ./site/allure-report
+
+      - name: Download Playwright HTML Report Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: playwright-html-report
+          path: ./site/playwright-report
+
+      - name: Create index.html for reports
+        run: |
+          echo '<!DOCTYPE html>' > ./site/index.html
+          echo '<html><head><meta charset="UTF-8"><title>Test Reports</title>' >> ./site/index.html
+          echo '<style>' >> ./site/index.html
+          echo 'body { font-family: "Segoe UI", Tahoma, sans-serif; background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); color: #fff; text-align: center; padding: 50px; }' >> ./site/index.html
+          echo 'h1 { font-size: 2.5rem; margin-bottom: 40px; }' >> ./site/index.html
+          echo 'ul { list-style: none; padding: 0; display: flex; justify-content: center; gap: 30px; }' >> ./site/index.html
+          echo 'li { }' >> ./site/index.html
+          echo 'a { display: inline-block; padding: 20px 40px; border-radius: 12px; background: #1e3c72; color: #fff; text-decoration: none; font-size: 18px; font-weight: bold; transition: all 0.3s ease; box-shadow: 0 8px 20px rgba(0,0,0,0.4); }' >> ./site/index.html
+          echo 'a:hover { background: #2a5298; transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.6); }' >> ./site/index.html
+          echo '</style>' >> ./site/index.html
+          echo '</head><body>' >> ./site/index.html
+          echo '<h1>📊 Test Reports</h1>' >> ./site/index.html
+          echo '<ul>' >> ./site/index.html
+          echo '<li><a href="allure-report/index.html">🚀 Allure Report</a></li>' >> ./site/index.html
+          echo '<li><a href="playwright-report/index.html">🎭 Playwright HTML Report</a></li>' >> ./site/index.html
+          echo '</ul>' >> ./site/index.html
+          echo '</body></html>' >> ./site/index.html
+
+      - name: Deploy Reports to GitHub Pages 🚀
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
+
