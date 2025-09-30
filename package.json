@@ -4,8 +4,9 @@
     "type": "module",
     "main": "index.js",
     "scripts": {
-        "lint": "eslint . --fix",
-        "format": "prettier --write ."
+        "test": "playwright test",
+        "allure:generate": "allure generate ./allure-results --clean -o ./allure-report",
+        "allure:open": "allure open ./allure-report"
     },
     "keywords": [],
     "author": "",
