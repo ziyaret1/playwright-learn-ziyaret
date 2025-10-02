@@ -59,7 +59,7 @@ jobs:
               with:
               path: ./allure-report
             - name: Deploy Pages
-              uses: actions/deploy-pages@v1      
+              uses: actions/deploy-pages@v1       
 
 
 
