@@ -56,8 +56,10 @@ name: Playwright Tests
 
 on:
   push:
-    branches:
-      - main
+    push:
+        branches: [ziyaret/allure]
+    pull_request:
+        branches: [main]
 
 jobs:
   test:
