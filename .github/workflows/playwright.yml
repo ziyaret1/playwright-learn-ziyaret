@@ -52,7 +52,6 @@
 #                   name: allure-report
 #                   path: ./allure-report
 #                   retention-days: 30
-
 name: Playwright Tests
 
 on:
@@ -78,14 +77,16 @@ jobs:
   deploy:
     needs: test
     runs-on: ubuntu-latest
+    permissions:
+      contents: write   # 👈 Burda şərtlidir, əks halda push edə bilmir
     steps:
-      - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
           name: playwright-report
-          path: playwright-report
+          path: ./playwright-report
       - name: Deploy 🚀
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./playwright-report
+
