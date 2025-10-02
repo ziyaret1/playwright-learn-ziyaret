@@ -52,43 +52,106 @@
 #                   name: allure-report
 #                   path: ./allure-report
 #                   retention-days: 30
+#! playwright reporter
+# name: Playwright Tests
+
+# on:
+#     push:
+#         branches: [ziyaret/allure]
+#     pull_request:
+#         branches: [main]
+
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
+#       - uses: actions/setup-node@v4
+#         with:
+#           node-version: 20
+#       - run: npm ci
+#       - run: npx playwright test --reporter=html
+#       - uses: actions/upload-artifact@v4
+#         with:
+#           name: playwright-report
+#           path: playwright-report
+
+#   deploy:
+#     needs: test
+#     runs-on: ubuntu-latest
+#     permissions:
+#       contents: write  
+#     steps:
+#       - uses: actions/download-artifact@v4
+#         with:
+#           name: playwright-report
+#           path: ./playwright-report
+#       - name: Deploy 🚀
+#         uses: peaceiris/actions-gh-pages@v3
+#         with:
+#           github_token: ${{ secrets.GITHUB_TOKEN }}
+#           publish_dir: ./playwright-report
+
+
+
+
+#! Both reports
 name: Playwright Tests
 
 on:
   push:
-    push:
-        branches: [ziyaret/allure]
-    pull_request:
-        branches: [main]
+    branches: [ziyaret/allure]
+  pull_request:
+    branches: [main]
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: npm ci
-      - run: npx playwright test --reporter=html
-      - uses: actions/upload-artifact@v4
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright Tests with HTML & Allure reporters
+        run: npx playwright test --reporter=html,allure-playwright
+
+      - name: Generate Allure Report
+        run: npx allure generate ./allure-results --clean -o ./allure-report
+
+      - name: Upload Playwright HTML Report as Artifact
+        uses: actions/upload-artifact@v4
         with:
-          name: playwright-report
+          name: playwright-html-report
           path: playwright-report
+
+      - name: Upload Allure Report as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report
 
   deploy:
     needs: test
     runs-on: ubuntu-latest
     permissions:
-      contents: write   # 👈 Burda şərtlidir, əks halda push edə bilmir
+      contents: write
     steps:
-      - uses: actions/download-artifact@v4
+      - name: Download Allure Report Artifact
+        uses: actions/download-artifact@v4
         with:
-          name: playwright-report
-          path: ./playwright-report
-      - name: Deploy 🚀
+          name: allure-report
+          path: ./allure-report
+
+      - name: Deploy Allure Report to GitHub Pages 🚀
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./playwright-report
-
+          publish_dir: ./allure-report
