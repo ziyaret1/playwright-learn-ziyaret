@@ -186,7 +186,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Playwright Tests with HTML & Allure reporters
-        run: npx playwright test --reporter=html,allure-playwright
+        run: npx playwright test --reporter=html,allure-playwright --workers=4
         continue-on-error: true
 
       - name: Install Allure CLI
