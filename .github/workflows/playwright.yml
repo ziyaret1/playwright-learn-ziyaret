@@ -135,9 +135,6 @@ jobs:
           name: playwright-html-report
           path: ./site/playwright-report
 
-      # - name: List site contents (debug)
-      #   run: ls -R ./site
-
       - name: Create index.html for reports
         run: |
           echo '<!DOCTYPE html>' > ./site/index.html
