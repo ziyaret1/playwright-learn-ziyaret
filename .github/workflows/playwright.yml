@@ -141,7 +141,16 @@ jobs:
       - name: Create index.html for reports
         run: |
           echo '<!DOCTYPE html>' > ./site/index.html
-          echo '<html><head><meta charset="UTF-8"><title>Test Reports</title></head><body>' >> ./site/index.html
+          echo '<html lang="en">' >> ./site/index.html
+          echo '<head><meta charset="UTF-8"><title>Test Reports</title>' >> ./site/index.html
+          echo '<style>' >> ./site/index.html
+          echo 'body { font-family: Arial, sans-serif; background: #f9f9f9; margin: 0; padding: 40px; }' >> ./site/index.html
+          echo 'h1 { color: #333; text-align: center; margin-bottom: 30px; }' >> ./site/index.html
+          echo 'ul { display: flex; justify-content: center; gap: 20px; list-style: none; padding: 0; }' >> ./site/index.html
+          echo 'li { }' >> ./site/index.html
+          echo 'a { display: block; padding: 15px 25px; background: #007bff; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; transition: background 0.3s ease; }' >> ./site/index.html
+          echo 'a:hover { background: #0056b3; }' >> ./site/index.html
+          echo '</style></head><body>' >> ./site/index.html
           echo '<h1>📊 Test Reports</h1>' >> ./site/index.html
           echo '<ul>' >> ./site/index.html
           echo '<li><a href="allure-report/index.html">Allure Report</a></li>' >> ./site/index.html
