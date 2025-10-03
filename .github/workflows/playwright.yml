@@ -161,6 +161,14 @@
 #           publish_dir: ./allure-report
 
 
+name: Playwright Tests
+
+on:
+  push:
+    branches: [ziyaret/allure]
+  pull_request:
+    branches: [main]
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -181,7 +189,7 @@ jobs:
         run: npx playwright test --reporter=html,allure-playwright
         continue-on-error: true
 
-      - name: Install Allure CLI   
+      - name: Install Allure CLI
         run: npm install -g allure-commandline --save-dev
 
       - name: Generate Allure Report
@@ -201,3 +209,21 @@ jobs:
         with:
           name: allure-report
           path: allure-report
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download Allure Report Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-report
+          path: ./allure-report
+
+      - name: Deploy Allure Report to GitHub Pages 🚀
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./allure-report
