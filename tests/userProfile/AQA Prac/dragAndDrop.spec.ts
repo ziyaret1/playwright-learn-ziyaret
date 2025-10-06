@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
 import { test } from '../../../src/fixtures/fixture_signIn';
 import { PageUrls, TestDataSignin } from '../../../src/testData/testData';
-test.describe('AQA Practice - Select Suite', () => {
+test.describe('AQA Practice - Drag and Drop Suite', () => {
     test.beforeEach(async ({ userProfilePage, signInPage, aqaPractice }) => {
         await signInPage.goto();
         await signInPage.fillEmailAddress(TestDataSignin.EMAIL);
