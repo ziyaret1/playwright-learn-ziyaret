@@ -27,6 +27,39 @@ export class AqaPractice extends BasePage {
     readonly selectionCourses: Locator;
     // No result message
     readonly noResultMessage: Locator;
+    // Drag and Drop section
+    readonly sortResponsibilitiesTitle: Locator;
+    readonly sortResponsibleSubtitle: Locator;
+    readonly chips: Locator;
+    readonly chipWriteTestCases: Locator;
+    readonly chipTestingRequirements: Locator;
+    readonly chipAutomationScripts: Locator;
+    readonly chipFrameworkSetup: Locator;
+    readonly manualWorkTitle: Locator;
+    readonly manualCol1: Locator;
+    readonly manualCol2: Locator;
+    readonly automationWorkTitle: Locator;
+    readonly autoCol1: Locator;
+    readonly autoCol2: Locator;
+    readonly finishDragButton: Locator;
+    readonly congratulationPopup: Locator;
+    // Actions and Alerts section
+    readonly actionAlertPageTitle: Locator;
+    readonly actionAlertPageSubtitle: Locator;
+    readonly confirmButton: Locator;
+    readonly getDiscountButton: Locator;
+    readonly cancelCourseButton: Locator;
+    readonly actionResult: Locator;
+    readonly finishActionButton: Locator;
+    readonly confirmInfoIcon: Locator;
+    readonly tooltip: Locator;
+    // Class properties
+    readonly manualColumnClass: string;
+    readonly autoColumnClass: string;
+    readonly finishButtonDisabledClass: string;
+    readonly finishButtonEnabledClass: string;
+    readonly hoverChipClass: string;
+
     constructor(page: Page) {
         super(page);
         this.aqaPracticeDropdown = page.locator('div.flex.cursor-pointer:has-text("AQA Practice")');
@@ -57,6 +90,53 @@ export class AqaPractice extends BasePage {
         this.noResultMessage = page.locator(
             'text=Unfortunately, we did not find any courses matching your chosen criteria.'
         );
+        // Drag and Drop
+        this.sortResponsibilitiesTitle = page.locator('h1', {
+            hasText: 'Sort your responsibilities',
+        });
+        this.sortResponsibleSubtitle = page.locator('h2', {
+            hasText: 'Place the blocks into the cells below',
+        });
+        this.chips = page.locator('span[title="Draggable element"]');
+        this.chipWriteTestCases = page.locator('#manual1');
+        this.chipTestingRequirements = page.locator('#manual2');
+        this.chipAutomationScripts = page.locator('#auto1');
+        this.chipFrameworkSetup = page.locator('#auto2');
+        this.manualWorkTitle = page.locator('h3', { hasText: 'Manual Work' });
+        this.automationWorkTitle = page.locator('h3', { hasText: 'Automation Work' });
+        this.manualCol1 = page.locator('#target-manual1');
+        this.manualCol2 = page.locator('#target-manual2');
+        this.autoCol1 = page.locator('#target-auto1');
+        this.autoCol2 = page.locator('#target-auto2');
+        // Finish button
+        this.finishDragButton = page.locator('#DragNDropPageFinishButton');
+        // Success message
+        this.congratulationPopup = page.getByText('Congratulations', { exact: false });
+        // Actions and Alerts
+        this.actionAlertPageTitle = page.getByRole('heading', {
+            name: 'Your application has been accepted!',
+        });
+        this.actionAlertPageSubtitle = page.getByText(
+            'Click one of the buttons to complete your registration on Default course'
+        );
+        this.confirmButton = page.locator('#AlertButton');
+        this.getDiscountButton = page.getByRole('button', { name: 'Get Discount' });
+        this.cancelCourseButton = page.getByTestId('PromptButton');
+        this.actionResult = page.locator('div').filter({ hasText: /^Results:/ });
+        this.finishActionButton = page.getByRole('button', { name: 'Finish' });
+        this.confirmInfoIcon = page.locator('#AlertButton + .info-icon');
+        this.tooltip = page.locator('.tooltip');
+        // Class Properties
+        this.manualColumnClass =
+            'flex flex-col flex-1 items-center justify-center min-h-[200px] border border-dashed border-zinc-200 ';
+        this.autoColumnClass =
+            'flex flex-col flex-1 items-center justify-center min-h-[200px] border border-dashed border-zinc-200 ';
+        this.hoverChipClass =
+            'px-[15px] py-[7px] bg-sky-100 rounded hover:bg-sky-300 active:bg-sky-200 cursor-pointer';
+        this.finishButtonDisabledClass =
+            'h-[42px] w-[180px] bg-[#EFEFF0] text-[#888D92] self-end flex items-center justify-center font-medium text-sm';
+        this.finishButtonEnabledClass =
+            'h-[42px] w-[180px] bg-[#feda00] hover:bg-[#FEC600] self-end flex items-center justify-center font-medium text-sm';
     }
     //! Methods
     async goto(): Promise<void> {
@@ -83,5 +163,12 @@ export class AqaPractice extends BasePage {
         for (const course of courses) {
             await this.selectionCourses.selectOption({ label: course });
         }
+    }
+    async dragAndDrop(source: Locator, target: Locator): Promise<void> {
+        await source.dragTo(target);
+    }
+    async hoverChip(chip: Locator): Promise<void> {
+        await chip.hover();
+        await expect(chip).toHaveClass(/cursor-pointer/);
     }
 }
