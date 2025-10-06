@@ -1,0 +1,52 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - banner [ref=e6]:
+    - generic [ref=e7]:
+      - generic [ref=e8]:
+        - img "Logo" [ref=e9]
+        - generic [ref=e10]: ANDERSEN
+      - img "PhotoUrl" [ref=e11]
+  - generic [ref=e13]:
+    - navigation [ref=e14]
+    - main [ref=e15]:
+      - generic [ref=e18]:
+        - generic [ref=e19]:
+          - heading "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" [level=1] [ref=e21]
+          - img "Edit" [ref=e22] [cursor=pointer]
+        - separator [ref=e23]
+        - generic [ref=e24]:
+          - generic [ref=e26]:
+            - generic [ref=e28]:
+              - generic [ref=e29]: Position
+              - generic [ref=e30]: QA Engineer
+              - generic [ref=e31]: Technologies
+              - generic [ref=e32]: QA Manual
+            - generic [ref=e34]:
+              - generic [ref=e35]: E-mail
+              - generic [ref=e36]: testZi@gmail.com
+              - generic [ref=e37]: Date of birth
+              - generic [ref=e38]: 01/01/2000
+          - generic [ref=e40] [cursor=pointer]:
+            - generic [ref=e41] [cursor=pointer]: AQA Practice
+            - img "Expand" [ref=e42] [cursor=pointer]
+        - generic [ref=e43] [cursor=pointer]:
+          - img "Sign Out" [ref=e44] [cursor=pointer]
+          - generic [ref=e45] [cursor=pointer]: Sign Out
+  - contentinfo [ref=e46]:
+    - generic [ref=e49]:
+      - img "Company Logo" [ref=e50]
+      - generic [ref=e51]:
+        - generic [ref=e52]: Contact us
+        - generic [ref=e53]:
+          - generic [ref=e54]:
+            - img "Phone" [ref=e55]
+            - generic [ref=e56]: +49 22 198 253 169
+          - generic [ref=e57]:
+            - img "Email" [ref=e58]
+            - generic [ref=e59]: vn@andersenlab.com
+    - generic [ref=e62]:
+      - generic [ref=e63]: © Copyright 2007-2025 Andersen Software, Inc. All Rights Reserved.
+      - generic [ref=e64]: Privacy Policy
+```
