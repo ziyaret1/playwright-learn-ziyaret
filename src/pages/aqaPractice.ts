@@ -1,4 +1,4 @@
-import { expect, type Locator, type Page } from '@playwright/test';
+import { expect, type Locator, type Page, type FrameLocator } from '@playwright/test';
 import { PageUrls } from '../testData/testData';
 import { BasePage } from './basePage';
 export class AqaPractice extends BasePage {
@@ -44,6 +44,8 @@ export class AqaPractice extends BasePage {
     readonly finishDragButton: Locator;
     readonly congratulationPopup: Locator;
     // Actions and Alerts section
+    readonly backButtonFromAction: Locator;
+    readonly actionAlertIframe: FrameLocator;
     readonly actionAlertPageTitle: Locator;
     readonly actionAlertPageSubtitle: Locator;
     readonly confirmButton: Locator;
@@ -67,7 +69,7 @@ export class AqaPractice extends BasePage {
         this.dragAndDropItem = page.locator('text=Drag & Drop');
         this.actionAlertItem = page.locator('text=Actions, Alerts & Iframes');
         this.backToProfileBtn = page.locator('a[data-test-id="NavLinkToHome"]');
-        // Select items
+        //! Select items
         this.chooseCourseTitle = page.locator('h1', { hasText: 'Choose your course' });
         this.defineStudyPreferencesSection = page.locator('h2', {
             hasText: 'Define your study preferences',
@@ -90,7 +92,7 @@ export class AqaPractice extends BasePage {
         this.noResultMessage = page.locator(
             'text=Unfortunately, we did not find any courses matching your chosen criteria.'
         );
-        // Drag and Drop
+        //! Drag and Drop
         this.sortResponsibilitiesTitle = page.locator('h1', {
             hasText: 'Sort your responsibilities',
         });
@@ -112,7 +114,9 @@ export class AqaPractice extends BasePage {
         this.finishDragButton = page.locator('#DragNDropPageFinishButton');
         // Success message
         this.congratulationPopup = page.getByText('Congratulations', { exact: false });
-        // Actions and Alerts
+        //! Actions and Alerts
+        this.backButtonFromAction = page.locator('div[data-for-tests----seems-like-cool-attribute-name="NavButtonToBack"]');
+        this.actionAlertIframe = page.frameLocator('iframe[title="Finish your registration"]');
         this.actionAlertPageTitle = page.getByRole('heading', {
             name: 'Your application has been accepted!',
         });
