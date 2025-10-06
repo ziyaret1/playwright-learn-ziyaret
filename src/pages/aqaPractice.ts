@@ -38,11 +38,9 @@ export class AqaPractice extends BasePage {
     readonly manualWorkTitle: Locator;
     readonly manualCol1: Locator;
     readonly manualCol2: Locator;
-    readonly manualColumnClass: string;
     readonly automationWorkTitle: Locator;
     readonly autoCol1: Locator;
     readonly autoCol2: Locator;
-    readonly autoColumnClass: string;
     readonly finishDragButton: Locator;
     readonly congratulationPopup: Locator;
     // Actions and Alerts section
@@ -55,6 +53,12 @@ export class AqaPractice extends BasePage {
     readonly finishActionButton: Locator;
     readonly confirmInfoIcon: Locator;
     readonly tooltip: Locator;
+    // Class properties
+    readonly manualColumnClass: string;
+    readonly autoColumnClass: string;
+    readonly finishButtonDisabledClass: string;
+    readonly finishButtonEnabledClass: string;
+    readonly hoverChipClass: string;
 
     constructor(page: Page) {
         super(page);
@@ -100,17 +104,14 @@ export class AqaPractice extends BasePage {
         this.chipFrameworkSetup = page.locator('#auto2');
         this.manualWorkTitle = page.locator('h3', { hasText: 'Manual Work' });
         this.automationWorkTitle = page.locator('h3', { hasText: 'Automation Work' });
-        this.manualColumnClass =
-            'flex flex-col flex-1 items-center justify-center min-h-[200px] border border-dashed border-zinc-200 ';
         this.manualCol1 = page.locator('#target-manual1');
         this.manualCol2 = page.locator('#target-manual2');
         this.autoCol1 = page.locator('#target-auto1');
         this.autoCol2 = page.locator('#target-auto2');
-        this.autoColumnClass = ('flex flex-col flex-1 items-center justify-center min-h-[200px] border border-dashed border-zinc-200 ')
         // Finish button
         this.finishDragButton = page.locator('#DragNDropPageFinishButton');
         // Success message
-        this.congratulationPopup = page.locator('div', { hasText: 'Congratulations' });
+        this.congratulationPopup = page.getByText('Congratulations', { exact: false });
         // Actions and Alerts
         this.actionAlertPageTitle = page.getByRole('heading', {
             name: 'Your application has been accepted!',
@@ -125,6 +126,17 @@ export class AqaPractice extends BasePage {
         this.finishActionButton = page.getByRole('button', { name: 'Finish' });
         this.confirmInfoIcon = page.locator('#AlertButton + .info-icon');
         this.tooltip = page.locator('.tooltip');
+        // Class Properties
+        this.manualColumnClass =
+            'flex flex-col flex-1 items-center justify-center min-h-[200px] border border-dashed border-zinc-200 ';
+        this.autoColumnClass =
+            'flex flex-col flex-1 items-center justify-center min-h-[200px] border border-dashed border-zinc-200 ';
+        this.hoverChipClass =
+            'px-[15px] py-[7px] bg-sky-100 rounded hover:bg-sky-300 active:bg-sky-200 cursor-pointer';
+        this.finishButtonDisabledClass =
+            'h-[42px] w-[180px] bg-[#EFEFF0] text-[#888D92] self-end flex items-center justify-center font-medium text-sm';
+        this.finishButtonEnabledClass =
+            'h-[42px] w-[180px] bg-[#feda00] hover:bg-[#FEC600] self-end flex items-center justify-center font-medium text-sm';
     }
     //! Methods
     async goto(): Promise<void> {
@@ -154,5 +166,9 @@ export class AqaPractice extends BasePage {
     }
     async dragAndDrop(source: Locator, target: Locator): Promise<void> {
         await source.dragTo(target);
+    }
+    async hoverChip(chip: Locator): Promise<void> {
+        await chip.hover();
+        await expect(chip).toHaveClass(/cursor-pointer/);
     }
 }

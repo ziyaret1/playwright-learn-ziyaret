@@ -1,6 +1,7 @@
 import { expect } from '@playwright/test';
 import { test } from '../../../src/fixtures/fixture_signIn';
 import { PageUrls, TestDataSignin } from '../../../src/testData/testData';
+
 test.describe('AQA Practice - Drag and Drop Suite', () => {
     test.beforeEach(async ({ userProfilePage, signInPage, aqaPractice }) => {
         await signInPage.goto();
@@ -26,7 +27,9 @@ test.describe('AQA Practice - Drag and Drop Suite', () => {
         await expect(aqaPractice.chipFrameworkSetup).toBeVisible();
         await expect(aqaPractice.manualWorkTitle).toBeVisible();
         await expect(aqaPractice.automationWorkTitle).toBeVisible();
-        await expect(aqaPractice.finishDragButton).toHaveClass(/bg-\[#EFEFF0\]/);
+        await expect(aqaPractice.finishDragButton).toHaveClass(
+            aqaPractice.finishButtonDisabledClass
+        );
     });
     test('[AQAPRACT-584] Redirection to the user profile after finishing course', async ({
         aqaPractice,
@@ -36,7 +39,9 @@ test.describe('AQA Practice - Drag and Drop Suite', () => {
         await aqaPractice.dragAndDrop(aqaPractice.chipTestingRequirements, aqaPractice.manualCol2);
         await aqaPractice.dragAndDrop(aqaPractice.chipAutomationScripts, aqaPractice.autoCol1);
         await aqaPractice.dragAndDrop(aqaPractice.chipFrameworkSetup, aqaPractice.autoCol2);
-        await expect(aqaPractice.finishDragButton).toBeEnabled();
+        await expect(aqaPractice.finishDragButton).toHaveClass(
+            aqaPractice.finishButtonEnabledClass
+        );
         await aqaPractice.finishDragButton.click();
         await expect(aqaPractice.congratulationPopup).toBeVisible();
         await expect(userProfilePage.getPage()).toHaveURL(PageUrls.USER_PROFILE);
@@ -44,49 +49,60 @@ test.describe('AQA Practice - Drag and Drop Suite', () => {
     test('[AQAPRACT-585] Moving the Write test cases chips to the first column of the Manual Work section', async ({
         aqaPractice,
     }) => {
-        await aqaPractice.chipWriteTestCases.hover();
-        await expect(aqaPractice.chipWriteTestCases).toHaveClass(/hover:bg-sky-300/);
+        await aqaPractice.hoverChip(aqaPractice.chipWriteTestCases);
         await aqaPractice.dragAndDrop(aqaPractice.chipWriteTestCases, aqaPractice.manualCol1);
-        await expect(aqaPractice.finishDragButton).toBeEnabled();
+        await expect(aqaPractice.finishDragButton).toHaveClass(
+            aqaPractice.finishButtonDisabledClass
+        );
     });
     test('[AQAPRACT-586] Moving the Testing requirements chips to the first column on the second column of the Manual work', async ({
         aqaPractice,
     }) => {
-        await aqaPractice.chipTestingRequirements.hover();
+        await aqaPractice.hoverChip(aqaPractice.chipTestingRequirements);
         await aqaPractice.dragAndDrop(aqaPractice.chipTestingRequirements, aqaPractice.manualCol2);
         await expect(aqaPractice.manualCol2).toHaveClass(aqaPractice.manualColumnClass);
-        await expect(aqaPractice.finishDragButton).toHaveClass(/bg-\[#EFEFF0\]/);
+        await expect(aqaPractice.finishDragButton).toHaveClass(
+            aqaPractice.finishButtonDisabledClass
+        );
     });
     test('[AQAPRACT-587] Moving Write automation scripts chip to the first column of the first column on the Automation work', async ({
         aqaPractice,
     }) => {
-        await aqaPractice.chipAutomationScripts.hover();
+        await aqaPractice.hoverChip(aqaPractice.chipAutomationScripts);
         await aqaPractice.dragAndDrop(aqaPractice.chipAutomationScripts, aqaPractice.autoCol1);
         await expect(aqaPractice.autoCol1).toHaveClass(aqaPractice.autoColumnClass);
-        await expect(aqaPractice.finishDragButton).toHaveClass(/bg-\[#EFEFF0\]/);
+        await expect(aqaPractice.finishDragButton).toHaveClass(
+            aqaPractice.finishButtonDisabledClass
+        );
     });
     test('[AQAPRACT-588] Moving Framework set chip to the first column of the second column on the Automation work', async ({
         aqaPractice,
     }) => {
-        await aqaPractice.chipFrameworkSetup.hover();
+        await aqaPractice.hoverChip(aqaPractice.chipFrameworkSetup);
         await aqaPractice.dragAndDrop(aqaPractice.chipFrameworkSetup, aqaPractice.autoCol2);
-        await expect(aqaPractice.autoCol1).toHaveClass(aqaPractice.autoColumnClass);
-        await expect(aqaPractice.finishDragButton).toHaveClass(/bg-\[#EFEFF0\]/);
+        await expect(aqaPractice.autoCol2).toHaveClass(aqaPractice.autoColumnClass);
+        await expect(aqaPractice.finishDragButton).toHaveClass(
+            aqaPractice.finishButtonDisabledClass
+        );
     });
     test('[AQAPRACT-589] Availability of the Finish button after transferring all chips', async ({
         aqaPractice,
     }) => {
-        await expect(aqaPractice.finishDragButton).toHaveClass(/bg-\[#EFEFF0\]/);
+        await expect(aqaPractice.finishDragButton).toHaveClass(
+            aqaPractice.finishButtonDisabledClass
+        );
         await aqaPractice.dragAndDrop(aqaPractice.chipWriteTestCases, aqaPractice.manualCol1);
         await aqaPractice.dragAndDrop(aqaPractice.chipTestingRequirements, aqaPractice.manualCol2);
         await aqaPractice.dragAndDrop(aqaPractice.chipAutomationScripts, aqaPractice.autoCol1);
         await aqaPractice.dragAndDrop(aqaPractice.chipFrameworkSetup, aqaPractice.autoCol2);
-        await expect(aqaPractice.finishDragButton).toBeEnabled();
+        await expect(aqaPractice.finishDragButton).toHaveClass(aqaPractice.finishButtonEnabledClass);
         await aqaPractice.finishDragButton.click();
         await expect(aqaPractice.congratulationPopup).toBeVisible();
     });
     test('[AQAPRACT-590] Moving chips to the wrong column', async ({ aqaPractice }) => {
         await aqaPractice.dragAndDrop(aqaPractice.manualWorkTitle, aqaPractice.manualCol2);
-        await expect(aqaPractice.finishDragButton).toHaveClass(/bg-\[#EFEFF0\]/);
+        await expect(aqaPractice.finishDragButton).toHaveClass(
+            aqaPractice.finishButtonDisabledClass
+        );
     });
 });
