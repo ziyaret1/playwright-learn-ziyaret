@@ -54,9 +54,7 @@ test.describe('AQA Practice - Drag and Drop Suite', () => {
     }) => {
         await aqaPractice.chipTestingRequirements.hover();
         await aqaPractice.dragAndDrop(aqaPractice.chipTestingRequirements, aqaPractice.manualCol2);
-        await expect(aqaPractice.manualCol2).toHaveClass(
-            'flex flex-col flex-1 items-center justify-center min-h-[200px] border border-dashed border-zinc-200 '
-        );
+        await expect(aqaPractice.manualCol2).toHaveClass(aqaPractice.manualColumnClass);
         await expect(aqaPractice.finishDragButton).toHaveClass(/bg-\[#EFEFF0\]/);
     });
     test('[AQAPRACT-587] Moving Write automation scripts chip to the first column of the first column on the Automation work', async ({
@@ -64,9 +62,7 @@ test.describe('AQA Practice - Drag and Drop Suite', () => {
     }) => {
         await aqaPractice.chipAutomationScripts.hover();
         await aqaPractice.dragAndDrop(aqaPractice.chipAutomationScripts, aqaPractice.autoCol1);
-        await expect(aqaPractice.autoCol1).toHaveClass(
-            'flex flex-col flex-1 items-center justify-center min-h-[200px] border border-dashed border-zinc-200 '
-        );
+        await expect(aqaPractice.autoCol1).toHaveClass(aqaPractice.autoColumnClass);
         await expect(aqaPractice.finishDragButton).toHaveClass(/bg-\[#EFEFF0\]/);
     });
     test('[AQAPRACT-588] Moving Framework set chip to the first column of the second column on the Automation work', async ({
@@ -74,9 +70,7 @@ test.describe('AQA Practice - Drag and Drop Suite', () => {
     }) => {
         await aqaPractice.chipFrameworkSetup.hover();
         await aqaPractice.dragAndDrop(aqaPractice.chipFrameworkSetup, aqaPractice.autoCol2);
-        await expect(aqaPractice.autoCol2).toHaveClass(
-            'flex flex-col flex-1 items-center justify-center min-h-[200px] border border-dashed border-zinc-200 '
-        );
+        await expect(aqaPractice.autoCol1).toHaveClass(aqaPractice.autoColumnClass);
         await expect(aqaPractice.finishDragButton).toHaveClass(/bg-\[#EFEFF0\]/);
     });
     test('[AQAPRACT-589] Availability of the Finish button after transferring all chips', async ({
