@@ -1,0 +1,88 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - banner [ref=e6]:
+    - generic [ref=e7]:
+      - generic [ref=e8]:
+        - img "Logo" [ref=e9]
+        - generic [ref=e10]: ANDERSEN
+      - img "PhotoUrl" [ref=e11]
+  - generic [ref=e13]:
+    - navigation [ref=e14]:
+      - link "Back to Profile" [ref=e15] [cursor=pointer]:
+        - /url: /
+        - img [ref=e16] [cursor=pointer]
+        - generic [ref=e18] [cursor=pointer]: Back to Profile
+    - main [ref=e19]:
+      - generic [ref=e20]:
+        - heading "Choose your course" [level=1] [ref=e21]
+        - generic [ref=e23]:
+          - generic [ref=e24]:
+            - generic [ref=e25]:
+              - heading "Define your study preferences" [level=2] [ref=e26]
+              - combobox "Select country" [ref=e27] [cursor=pointer]:
+                - option "Select country" [disabled] [selected]
+                - option "Italy"
+                - option "Hungary"
+                - option "China"
+                - option "Belarus"
+                - option "USA"
+                - option "United Kingdom"
+                - option "Netherlands"
+                - option "Brazil"
+                - option "Australia"
+                - option "Germany"
+                - option "Canada"
+                - option "South Korea"
+                - option "Spain"
+                - option "Georgia"
+                - option "India"
+                - option "France"
+                - option "Poland"
+                - option "Japan"
+              - combobox "Select language" [ref=e28] [cursor=pointer]:
+                - option "Select language" [disabled] [selected]
+                - option "Dutch"
+                - option "Spanish"
+                - option "Japanese"
+                - option "French"
+                - option "Korean"
+                - option "Russian"
+                - option "German"
+                - option "Italian"
+                - option "Chinese"
+                - option "Portuguese"
+                - option "English"
+              - combobox "Select type" [ref=e29] [cursor=pointer]:
+                - option "Select type" [disabled] [selected]
+                - option "Media"
+                - option "Design"
+                - option "Performance Testing"
+                - option "Testing"
+                - option "Marketing"
+                - option "Data Analytics"
+                - option "Programming"
+              - generic [ref=e30]:
+                - textbox "Start date" [ref=e31] [cursor=pointer]
+                - textbox "End date" [ref=e32] [cursor=pointer]
+            - generic "Chosen courses will not be considered while searching!" [ref=e33]:
+              - heading "Select courses" [level=2] [ref=e34]
+              - listbox [ref=e35]
+          - button "Search" [ref=e37] [cursor=pointer]
+  - contentinfo [ref=e38]:
+    - generic [ref=e41]:
+      - img "Company Logo" [ref=e42]
+      - generic [ref=e43]:
+        - generic [ref=e44]: Contact us
+        - generic [ref=e45]:
+          - generic [ref=e46]:
+            - img "Phone" [ref=e47]
+            - generic [ref=e48]: +49 22 198 253 169
+          - generic [ref=e49]:
+            - img "Email" [ref=e50]
+            - generic [ref=e51]: vn@andersenlab.com
+    - generic [ref=e54]:
+      - generic [ref=e55]: © Copyright 2007-2025 Andersen Software, Inc. All Rights Reserved.
+      - generic [ref=e56]: Privacy Policy
+```
