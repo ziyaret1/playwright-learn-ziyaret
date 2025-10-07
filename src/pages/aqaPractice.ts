@@ -197,6 +197,7 @@ export class AqaPractice extends BasePage {
         await chip.hover();
         await expect(chip).toHaveClass(/cursor-pointer/);
     }
+    //! Alerts
     async handleConfirmAlert(expectedMessage: string = 'You have called alert!'): Promise<void> {
         this.page.once('dialog', async (dialog) => {
             expect(dialog.message()).toBe(expectedMessage);
@@ -230,7 +231,7 @@ export class AqaPractice extends BasePage {
         } else {
             const resultText = await this.actionResult.textContent();
             expect(resultText?.trim()).toBe('Results:');
-            await expect(this.finishActionButton).toHaveClass(/bg-\[#EFEFF0\]/); // inactive
+            await expect(this.finishActionButton).toHaveClass(/bg-\[#EFEFF0\]/); // inactive (toBeEnabled not working)
         }
     }
     async handleCancelCoursePrompt(
@@ -247,7 +248,7 @@ export class AqaPractice extends BasePage {
         });
     }
     async expectCancelCourseResult(reason: string | null = 'Test reason'): Promise<void> {
-        if (reason && reason.trim() !== '') {
+        if (reason && reason.trim() !== '') { // for not sending empty reason message  
             await expect(this.actionResult).toHaveText(
                 new RegExp(`Your course application has been cancelled\\. Reason: ${reason}`)
             );
