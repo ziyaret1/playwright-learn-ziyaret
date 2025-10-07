@@ -27,10 +27,84 @@ test.describe('AQA Practice - Drag and Drop Suite', () => {
         await expect(aqaPractice.getDiscountButton).toBeVisible();
         await expect(aqaPractice.cancelCourseButton).toBeVisible();
         await expect(aqaPractice.finishActionButton).toBeVisible();
-        await expect(aqaPractice.confirmInfoIcon).toBeVisible();
-        await expect(aqaPractice.tooltip).toBeHidden();
+        await expect(aqaPractice.confirmTooltip).toBeHidden();
     });
-    test('[AQAPRACT-592]', async({aqaPractice}) =>{
-
-    })
+    test('[AQAPRACT-592] Showing hint for Confirm button on Actions, Alerts & Iframes page', async ({
+        aqaPractice,
+    }) => {
+        await aqaPractice.confirmInfoIcon.hover();
+        await aqaPractice.getPage().waitForTimeout(1000);
+        await expect(aqaPractice.confirmTooltip).toBeVisible({ timeout: 2000 });
+    });
+    test('[AQAPRACT-593]', async ({ aqaPractice }) => {
+        await aqaPractice.getDiscountInfoIcon.hover();
+        await aqaPractice.getPage().waitForTimeout(1000);
+        await expect(aqaPractice.discountTooltip).toBeVisible({ timeout: 2000 });
+    });
+    test('[AQAPRACT-594]', async ({ aqaPractice }) => {
+        await aqaPractice.cancelCourseInfoIcon.hover();
+        await aqaPractice.getPage().waitForTimeout(1000);
+        await expect(aqaPractice.cancelCourseTooltip).toBeVisible({ timeout: 2000 });
+    });
+    test('[AQAPRACT-595]', async ({ aqaPractice }) => {
+        await aqaPractice.confirmButton.hover();
+        await expect(aqaPractice.confirmButton).toHaveClass(
+            new RegExp(aqaPractice.actionButtonColorOnHover)
+        );
+        await aqaPractice.handleConfirmAlert();
+        await aqaPractice.confirmButton.click();
+        await aqaPractice.handleConfirmAlert();
+        await aqaPractice.expectEnrollmentSuccess();
+        await expect(aqaPractice.finishActionButton).toBeEnabled();
+        await aqaPractice.finishActionButton.click();
+        await expect(aqaPractice.getPage()).toHaveURL(PageUrls.USER_PROFILE);
+    });
+    test('[AQAPRACT-596]', async ({ aqaPractice }) => {
+        await aqaPractice.getDiscountButton.hover();
+        await expect(aqaPractice.getDiscountButton).toHaveClass(
+            new RegExp(aqaPractice.actionButtonColorOnHover)
+        );
+        await aqaPractice.handleDiscountAlert(true); // mean we click OK inside alert
+        await aqaPractice.getDiscountButton.dblclick();
+        await aqaPractice.expectDiscountResult(true);
+        await expect(aqaPractice.finishActionButton).toBeEnabled();
+        await aqaPractice.finishActionButton.click();
+        await expect(aqaPractice.getPage()).toHaveURL(PageUrls.USER_PROFILE);
+    });
+    test('[AQAPRACT-597]', async ({ aqaPractice }) => {
+        await aqaPractice.getDiscountButton.hover();
+        await expect(aqaPractice.getDiscountButton).toHaveClass(
+            new RegExp(aqaPractice.actionButtonColorOnHover)
+        );
+        await aqaPractice.handleDiscountAlert(false);
+        await aqaPractice.getDiscountButton.dblclick();
+        await aqaPractice.expectDiscountResult(false);
+    });
+    test('[AQAPRACT-598]', async ({ aqaPractice }) => {
+        await aqaPractice.cancelCourseButton.hover();
+        await expect(aqaPractice.getDiscountButton).toHaveClass(
+            new RegExp(aqaPractice.actionButtonColorOnHover)
+        );
+        await aqaPractice.handleCancelCoursePrompt('Test reason');
+        await aqaPractice.cancelCourseButton.click({ button: 'right' });
+        await aqaPractice.expectCancelCourseResult('Test reason');
+    });
+    test('[AQAPRACT-599]', async ({ aqaPractice }) => {
+        await aqaPractice.cancelCourseButton.hover();
+        await expect(aqaPractice.getDiscountButton).toHaveClass(
+            new RegExp(aqaPractice.actionButtonColorOnHover)
+        );
+        await aqaPractice.handleCancelCoursePrompt('');
+        await aqaPractice.cancelCourseButton.click({ button: 'right' });
+        await aqaPractice.expectCancelCourseResult('');
+    });
+    test('[AQAPRACT-600]', async ({ aqaPractice }) => {
+        await aqaPractice.cancelCourseButton.hover();
+        await expect(aqaPractice.getDiscountButton).toHaveClass(
+            new RegExp(aqaPractice.actionButtonColorOnHover)
+        );
+        await aqaPractice.handleCancelCoursePrompt(null);
+        await aqaPractice.cancelCourseButton.click({ button: 'right' });
+        await aqaPractice.expectCancelCourseResult(null);
+    });
 });

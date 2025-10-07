@@ -54,13 +54,18 @@ export class AqaPractice extends BasePage {
     readonly actionResult: Locator;
     readonly finishActionButton: Locator;
     readonly confirmInfoIcon: Locator;
-    readonly tooltip: Locator;
+    readonly confirmTooltip: Locator;
+    readonly getDiscountInfoIcon: Locator;
+    readonly discountTooltip: Locator;
+    readonly cancelCourseInfoIcon: Locator;
+    readonly cancelCourseTooltip: Locator;
     // Class properties
     readonly manualColumnClass: string;
     readonly autoColumnClass: string;
     readonly finishButtonDisabledClass: string;
     readonly finishButtonEnabledClass: string;
     readonly hoverChipClass: string;
+    readonly actionButtonColorOnHover: string;
 
     constructor(page: Page) {
         super(page);
@@ -115,21 +120,37 @@ export class AqaPractice extends BasePage {
         // Success message
         this.congratulationPopup = page.getByText('Congratulations', { exact: false });
         //! Actions and Alerts
-        this.backButtonFromAction = page.locator('div[data-for-tests----seems-like-cool-attribute-name="NavButtonToBack"]');
+        this.backButtonFromAction = page.locator(
+            'div[data-for-tests----seems-like-cool-attribute-name="NavButtonToBack"]'
+        );
         this.actionAlertIframe = page.frameLocator('iframe[title="Finish your registration"]');
         this.actionAlertPageTitle = page.getByRole('heading', {
             name: 'Your application has been accepted!',
         });
-        this.actionAlertPageSubtitle = page.getByText(
-            'Click one of the buttons to complete your registration on Default course'
+        this.actionAlertPageSubtitle = this.actionAlertIframe.locator('h2', {
+            hasText: 'Click one of the buttons to complete your registration on Default course',
+        });
+        this.confirmButton = this.actionAlertIframe.locator('#AlertButton');
+        this.getDiscountButton = this.actionAlertIframe.getByRole('button', {
+            name: 'Get Discount',
+        });
+        this.cancelCourseButton = this.actionAlertIframe.locator(
+            'button[data-test-id="PromptButton"]'
         );
-        this.confirmButton = page.locator('#AlertButton');
-        this.getDiscountButton = page.getByRole('button', { name: 'Get Discount' });
-        this.cancelCourseButton = page.getByTestId('PromptButton');
-        this.actionResult = page.locator('div').filter({ hasText: /^Results:/ });
-        this.finishActionButton = page.getByRole('button', { name: 'Finish' });
-        this.confirmInfoIcon = page.locator('#AlertButton + .info-icon');
-        this.tooltip = page.locator('.tooltip');
+        this.actionResult = this.actionAlertIframe.locator('div').filter({ hasText: /^Results:/ });
+        this.finishActionButton = this.actionAlertIframe.getByRole('button', { name: 'Finish' });
+        this.confirmInfoIcon = this.actionAlertIframe.locator('svg.cursor-pointer').nth(0);
+        this.confirmTooltip = this.actionAlertIframe.locator(
+            'text=Click the button to open a JavaScript alert'
+        );
+        this.getDiscountInfoIcon = this.actionAlertIframe.locator('svg.cursor-pointer').nth(1);
+        this.discountTooltip = this.actionAlertIframe.locator(
+            'text=Double click the button to open a JavaScript confirm'
+        );
+        this.cancelCourseInfoIcon = this.actionAlertIframe.locator('svg.cursor-pointer').nth(2);
+        this.cancelCourseTooltip = this.actionAlertIframe.locator(
+            'text=Right click to open a JavaScript prompt'
+        );
         // Class Properties
         this.manualColumnClass =
             'flex flex-col flex-1 items-center justify-center min-h-[200px] border border-dashed border-zinc-200 ';
@@ -141,6 +162,7 @@ export class AqaPractice extends BasePage {
             'h-[42px] w-[180px] bg-[#EFEFF0] text-[#888D92] self-end flex items-center justify-center font-medium text-sm';
         this.finishButtonEnabledClass =
             'h-[42px] w-[180px] bg-[#feda00] hover:bg-[#FEC600] self-end flex items-center justify-center font-medium text-sm';
+        this.actionButtonColorOnHover = 'hover:bg-sky-300';
     }
     //! Methods
     async goto(): Promise<void> {
@@ -174,5 +196,66 @@ export class AqaPractice extends BasePage {
     async hoverChip(chip: Locator): Promise<void> {
         await chip.hover();
         await expect(chip).toHaveClass(/cursor-pointer/);
+    }
+    async handleConfirmAlert(expectedMessage: string = 'You have called alert!'): Promise<void> {
+        this.page.once('dialog', async (dialog) => {
+            expect(dialog.message()).toBe(expectedMessage);
+            await dialog.accept();
+        });
+    }
+    async expectEnrollmentSuccess(): Promise<void> {
+        await expect(this.actionResult).toHaveText(
+            /Congratulations, you have successfully enrolled in the course!/
+        );
+        await expect(this.finishActionButton).toBeEnabled();
+    }
+    async handleDiscountAlert(
+        accept: boolean = true,
+        expectedMessage: string = 'Are you sure you want to apply the discount?'
+    ): Promise<void> {
+        this.page.once('dialog', async (dialog) => {
+            expect(dialog.message()).toBe(expectedMessage);
+            if (accept) {
+                await dialog.accept();
+            } else {
+                await dialog.dismiss();
+            }
+        });
+    }
+    async expectDiscountResult(accept: boolean = true): Promise<void> {
+        if (accept) {
+            await expect(this.actionResult).toHaveText(
+                /You received a 10% discount on the second course./
+            );
+        } else {
+            const resultText = await this.actionResult.textContent();
+            expect(resultText?.trim()).toBe('Results:');
+            await expect(this.finishActionButton).toHaveClass(/bg-\[#EFEFF0\]/); // inactive
+        }
+    }
+    async handleCancelCoursePrompt(
+        reason: string | null = 'Test reason',
+        expectedMessage: string = 'Here you may describe a reason why you are cancelling your registration (or leave this field empty).'
+    ): Promise<void> {
+        this.page.once('dialog', async (dialog) => {
+            expect(dialog.message()).toBe(expectedMessage);
+            if (reason === null) {
+                await dialog.dismiss();
+            } else {
+                await dialog.accept(reason);
+            }
+        });
+    }
+    async expectCancelCourseResult(reason: string | null = 'Test reason'): Promise<void> {
+        if (reason && reason.trim() !== '') {
+            await expect(this.actionResult).toHaveText(
+                new RegExp(`Your course application has been cancelled\\. Reason: ${reason}`)
+            );
+        } else {
+            await expect(this.actionResult).toHaveText(
+                /Your course application has been cancelled\. Reason: You did not notice any reason\./
+            );
+        }
+        await expect(this.finishActionButton).toBeEnabled();
     }
 }
