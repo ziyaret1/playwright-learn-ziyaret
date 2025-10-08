@@ -2,17 +2,19 @@ import { expect } from '@playwright/test';
 import { test } from '../../../src/fixtures/fixture_signIn';
 import { PageUrls, TestDataSignin } from '../../../src/testData/testData';
 test.describe('AQA Practice - Select Suite', () => {
+    // test.use({storageState: 'user.json'});
     test.beforeEach(async ({ userProfilePage, signInPage, aqaPractice }) => {
-        // await signInPage.goto();
-        // await signInPage.fillEmailAddress(TestDataSignin.EMAIL);
-        // await signInPage.fillPasswordInput(TestDataSignin.PASSWORD);
-        // await signInPage.submit();
-        // await expect(userProfilePage.getPage()).toHaveURL(PageUrls.USER_PROFILE);
+        await signInPage.goto();
+        await signInPage.fillEmailAddress(TestDataSignin.EMAIL);
+        await signInPage.fillPasswordInput(TestDataSignin.PASSWORD);
+        await signInPage.submit();
+        await userProfilePage.goto();
+        await expect(userProfilePage.getPage()).toHaveURL(PageUrls.USER_PROFILE);
         await aqaPractice.aqaPracticeDropdown.hover();
         await aqaPractice.selectItem.click();
         await expect(aqaPractice.getPage()).toHaveURL(PageUrls.SELECT_COURSES);
     });
-    test('[AQAPRACT-571] Validation element in Select course page', async ({ aqaPractice }) => {
+    test.only('[AQAPRACT-571] Validation element in Select course page', async ({ aqaPractice }) => {
         await aqaPractice.backToProfileBtn.click();
         await expect(aqaPractice.getPage()).toHaveURL(PageUrls.USER_PROFILE);
         await aqaPractice.aqaPracticeDropdown.hover();
