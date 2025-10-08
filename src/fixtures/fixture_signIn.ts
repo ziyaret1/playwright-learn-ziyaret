@@ -7,7 +7,7 @@ type MyFixtures = {
     signInPage: SignInPage;
     userProfilePage: UserProfilePage;
     aqaPractice: AqaPractice;
-};
+}; 
 export const test = base.extend<MyFixtures>({
     signInPage: async ({ page }, use) => {
         const signInpage = new SignInPage(page);
@@ -15,10 +15,10 @@ export const test = base.extend<MyFixtures>({
     },
     userProfilePage: async ({ page }, use) => {
         const userProfilePage = new UserProfilePage(page);
-        use(userProfilePage);
+        await use(userProfilePage);
     },
     aqaPractice: async ({ page }, use) => {
         const aqaPractice = new AqaPractice(page);
-        use(aqaPractice);
+        await use(aqaPractice);
     },
 });
