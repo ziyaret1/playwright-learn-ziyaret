@@ -25,7 +25,11 @@ export default defineConfig({
     use: {
         // storageState: 'playwright/.auth/user.json', // bad practice if you work more credential
         /* Base URL to use in actions like `await page.goto('/')`. */
-        // baseURL: 'http://localhost:3000',
+        // baseURL: 'https://qa-course-01-api.andersenlab.com',
+        // extraHTTPHeaders: {
+        //     Accept: 'application/vnd.github.v3+json',
+        //     Authorization: `token ${process.env.API_TOKEN}`,
+        // },
         /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
         trace: 'on-first-retry',
     },
