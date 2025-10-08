@@ -14,7 +14,7 @@ test.describe('AQA Practice - Select Suite', () => {
         await aqaPractice.selectItem.click();
         await expect(aqaPractice.getPage()).toHaveURL(PageUrls.SELECT_COURSES);
     });
-    test.only('[AQAPRACT-571] Validation element in Select course page', async ({ aqaPractice }) => {
+    test('[AQAPRACT-571] Validation element in Select course page', async ({ aqaPractice }) => {
         await aqaPractice.backToProfileBtn.click();
         await expect(aqaPractice.getPage()).toHaveURL(PageUrls.USER_PROFILE);
         await aqaPractice.aqaPracticeDropdown.hover();

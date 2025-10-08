@@ -15,7 +15,7 @@ test.describe('AQA Practice - Drag and Drop Suite', () => {
         await aqaPractice.actionAlertItem.click();
         await expect(aqaPractice.getPage()).toHaveURL(PageUrls.ACTIONS_AND_ALERTS);
     });
-    test.only('[AQAPRACT-591] Actions, Alerts & Iframes form elements validation', async ({
+    test('[AQAPRACT-591] Actions, Alerts & Iframes form elements validation', async ({
         aqaPractice,
     }) => {
         await aqaPractice.backButtonFromAction.click();
