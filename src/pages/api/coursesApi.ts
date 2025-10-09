@@ -9,7 +9,16 @@ export class CoursesApi {
         this.request = request;
         this.baseUrl = baseUrl;
     }
-
+    //! header helper
+    private getAuthHeaders() {
+        if (!this.token) {
+            throw new Error('Token is not set. Please sign in first.');
+        }
+        return {
+            Authorization: `Bearer ${this.token}`,
+            'Content-Type': 'application/json',
+        };
+    }
     //! Methods
     async signIn(email: string, password: string) {
         const response = await this.request.post(`${this.baseUrl}/api/public/login`, {
@@ -21,42 +30,37 @@ export class CoursesApi {
         const json = await response.json();
         this.token = json['jwt-token'];
         if (!this.token) {
-            throw new Error('JWT token not found in login response');
+            throw new Error('JWT token not found');
         }
     }
     async filterCourses(filterBody: object) {
         return this.request.post(`${this.baseUrl}/api/secured/course/filter`, {
-            headers: {
-                Authorization: `Bearer ${this.token}`,
-                'Content-Type': 'application/json',
-            },
+            headers: this.getAuthHeaders(),
             data: filterBody,
         });
     }
 
     async getCourses() {
         return this.request.get(`${this.baseUrl}/api/secured/course`, {
-            headers: {
-                Authorization: `Bearer ${this.token}`,
-            },
+            headers: this.getAuthHeaders(),
         });
     }
 
     async getTypes() {
         return this.request.get(`${this.baseUrl}/api/secured/course/types`, {
-            headers: { Authorization: `Bearer ${this.token}` },
+            headers: this.getAuthHeaders(),
         });
     }
 
     async getLanguages() {
         return this.request.get(`${this.baseUrl}/api/secured/course/languages`, {
-            headers: { Authorization: `Bearer ${this.token}` },
+            headers: this.getAuthHeaders(),
         });
     }
 
     async getCountries() {
         return this.request.get(`${this.baseUrl}/api/secured/course/countries`, {
-            headers: { Authorization: `Bearer ${this.token}` },
+            headers: this.getAuthHeaders(),
         });
     }
 }

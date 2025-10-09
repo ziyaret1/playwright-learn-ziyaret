@@ -28,6 +28,8 @@ test.describe('Courses API Tests', () => {
         expect(response.status()).toBe(200);
         const body = await response.json();
         expect(body).toHaveProperty('courses');
+        expect(Array.isArray(body.courses)).toBeTruthy();
+        expect(body.courses.length).toBeGreaterThan(0);
     });
     test('[AQAPRACT-603]', async({coursesApi}) =>{
         const response = await coursesApi.getTypes();
@@ -35,6 +37,8 @@ test.describe('Courses API Tests', () => {
         expect(response.status()).toBe(200);
         const body = await response.json();
         expect(body).toHaveProperty('types');
+        expect(Array.isArray(body.types)).toBeTruthy();
+        expect(body.types.length).toBeGreaterThan(0);
     });
     test('[AQAPRACT-604]', async({coursesApi}) =>{
         const response = await coursesApi.getLanguages();
@@ -42,6 +46,8 @@ test.describe('Courses API Tests', () => {
         expect(response.status()).toBe(200);
         const body = await response.json();
         expect(body).toHaveProperty('languages');
+        expect(Array.isArray(body.languages)).toBeTruthy();
+        expect(body.languages.length).toBeGreaterThan(0);
     });
     test('[AQAPRACT-605]', async({coursesApi}) =>{
         const response = await coursesApi.getCountries();
@@ -49,6 +55,8 @@ test.describe('Courses API Tests', () => {
         expect(response.status()).toBe(200);
         const body = await response.json();
         expect(body).toHaveProperty('countries');
+        expect(Array.isArray(body.countries)).toBeTruthy();
+        expect(body.countries.length).toBeGreaterThan(0);
     })
     
 });
