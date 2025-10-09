@@ -25,6 +25,7 @@ export default defineConfig({
     use: {
         // storageState: 'playwright/.auth/user.json', // bad practice if you work more credential
         /* Base URL to use in actions like `await page.goto('/')`. */
+        // baseAPI: 'https://qa-course-01-api.andersenlab.com',
         // baseURL: 'https://qa-course-01-api.andersenlab.com',
         // extraHTTPHeaders: {
         //     Accept: 'application/vnd.github.v3+json',

@@ -1,13 +1,29 @@
-import { APIRequestContext } from '@playwright/test'; // like mini postman for send request, with this object we can use get post put
+import { APIRequestContext } from '@playwright/test';
 
 export class CoursesApi {
-    constructor(
-        private request: APIRequestContext,
-        private token: string,
-        private baseUrl: string
-    ) {}
+    private request: APIRequestContext;
+    private token: string | null = null;
+    private baseUrl: string;
+
+    constructor(request: APIRequestContext, baseUrl: string) {
+        this.request = request;
+        this.baseUrl = baseUrl;
+    }
 
     //! Methods
+    async signIn(email: string, password: string) {
+        const response = await this.request.post(`${this.baseUrl}/api/public/login`, {
+            data: { email, password },
+        });
+        if (!response.ok()) {
+            throw new Error(`Login failed: ${response.status()}`);
+        }
+        const json = await response.json();
+        this.token = json['jwt-token'];
+        if (!this.token) {
+            throw new Error('JWT token not found in login response');
+        }
+    }
     async filterCourses(filterBody: object) {
         return this.request.post(`${this.baseUrl}/api/secured/course/filter`, {
             headers: {

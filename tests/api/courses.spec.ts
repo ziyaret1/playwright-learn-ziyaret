@@ -1,30 +1,54 @@
-import { test } from '../../src/fixtures/api/base_fixture';
+import { test } from '../../src/fixtures/api/baseApi_fixture';
 import { expect } from '@playwright/test';
+import { TestDataSignin } from '../../src/testData/testData';
 
 test.describe('Courses API Tests', () => {
-    test('[AQAPRACT-601]', async ({ coursesApi }) => {
-        // const filterBody = { language: 'English', type: 'Programming' };
-        // const response = await coursesApi.filterCourses(filterBody);
-        // expect(response.ok()).toBeTruthy();
-        // expect(response.status()).toBe(200);
-        // const body = await response.json();
-        // expect(body).toHaveProperty('courses');
-        // expect(Array.isArray(body.courses)).toBeTruthy();
-        // expect(body.courses.length).toBeGreaterThan(0);
-        // for (const course of body.courses) {
-        //     expect(course.language).toBe('English');
-        //     expect(course.type).toBe('Programming');
-        // }
-
-        // console.log('Sample course:', body.courses[0]);
-        const filterBody = { language: 'English', type: 'Programming' };
-        const response = await coursesApi.filterCourses(filterBody);
-
-        // 🪵 Debug üçün əlavə et
-        console.log('Status code:', response.status());
-        console.log('Response text:', await response.text());
-
-        expect(response.ok()).toBeTruthy(); // burda hələ qalır
-        expect(response.status()).toBe(200);
+    test.beforeEach(async ({ coursesApi }) => {
+        await coursesApi.signIn(TestDataSignin.EMAIL, TestDataSignin.PASSWORD);
     });
+    test('[AQAPRACT-601]', async ({ coursesApi }) => {
+        const response = await coursesApi.filterCourses({
+            language: 'English',
+            type: 'Programming',
+        });
+        expect(response.ok()).toBeTruthy();
+        expect(response.status()).toBe(200);
+        const body = await response.json();
+        expect(body).toHaveProperty('courses');
+        expect(Array.isArray(body.courses)).toBeTruthy();
+        expect(body.courses.length).toBeGreaterThan(0);
+        for (const course of body.courses) {
+            expect(course.language).toBe('English');
+            expect(course.type).toBe('Programming');
+        }
+    });
+    test('[AQAPRACT-602]', async({coursesApi}) =>{
+        const response = await coursesApi.getCourses();
+        expect(response.ok()).toBeTruthy();
+        expect(response.status()).toBe(200);
+        const body = await response.json();
+        expect(body).toHaveProperty('courses');
+    });
+    test('[AQAPRACT-603]', async({coursesApi}) =>{
+        const response = await coursesApi.getTypes();
+        expect(response.ok()).toBeTruthy();
+        expect(response.status()).toBe(200);
+        const body = await response.json();
+        expect(body).toHaveProperty('types');
+    });
+    test('[AQAPRACT-604]', async({coursesApi}) =>{
+        const response = await coursesApi.getLanguages();
+        expect(response.ok()).toBeTruthy();
+        expect(response.status()).toBe(200);
+        const body = await response.json();
+        expect(body).toHaveProperty('languages');
+    });
+    test('[AQAPRACT-605]', async({coursesApi}) =>{
+        const response = await coursesApi.getCountries();
+        expect(response.ok()).toBeTruthy();
+        expect(response.status()).toBe(200);
+        const body = await response.json();
+        expect(body).toHaveProperty('countries');
+    })
+    
 });
