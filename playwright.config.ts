@@ -11,7 +11,7 @@ export default defineConfig({
     reporter: [['list'], ['allure-playwright']],
     use: {
         // storageState: 'playwright/.auth/user.json', // bad practice if you work more credential
-        baseURL: process.env.BASE_URL,
+        // baseURL: process.env.BASE_URL,
         trace: 'on-first-retry',
     },
     projects: [
