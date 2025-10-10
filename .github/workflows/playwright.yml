@@ -35,23 +35,17 @@ jobs:
 
       - name: Upload Playwright HTML Report as Artifact
         if: always()
-  run: |
-    if [ -d "playwright-report" ]; then
-      echo "Uploading Playwright HTML Report..."
-      npx @actions/artifact upload --name playwright-html-report --path playwright-report
-    else
-      echo "Playwright HTML Report not found, skipping."
-    fi
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-html-report
+          path: playwright-report
 
       - name: Upload Allure Report as Artifact
         if: always()
-  run: |
-    if [ -d "allure-report" ]; then
-      echo "Uploading Allure Report..."
-      npx @actions/artifact upload --name allure-report --path allure-report
-    else
-      echo "Allure Report not found, skipping."
-    fi
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report
 
   deploy:
     needs: test
