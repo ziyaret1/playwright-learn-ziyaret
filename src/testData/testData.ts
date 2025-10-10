@@ -6,7 +6,6 @@ export enum TestData {
     DATE_OF_BIRTH = '2000-01-01',
 }
 export const generateUniqueEmail = (): string => {
-    //for make email address unique (not added testdata because it is not fixed)
     return `testaqa${Date.now()}@mail.com`;
 };
 export enum InvalidEmail {
@@ -18,7 +17,7 @@ export enum InvalidEmail {
 export enum TestDataSignin {
     EMAIL = 'testZi@gmail.com',
     PASSWORD = 'Zi11111111',
-    //! Password validation test data
+    // Password validation test data
     PASSWORD_MIN = '12345678', // 8 characters
     PASSWORD_MAX = '12345678901234567890', // 20 characters
     PASSWORD_UNDER_MIN = '1234567', // 7 characters
@@ -35,3 +34,10 @@ export enum PageUrls {
 export const TestFiles = {
     PHOTO: path.resolve('src/testData/files/testImage.png'),
 };
+export enum CourseEndpoints {
+    FILTER_COURSE_ENDP = '/api/secured/course/filter',
+    COURSES_ENDP = '/api/secured/course',
+    TYPES_ENDP = '/api/secured/course/types',
+    LANGUAGES_ENDP = '/api/secured/course/languages',
+    COUNTRIES_ENDP = '/api/secured/course/countries',
+}
