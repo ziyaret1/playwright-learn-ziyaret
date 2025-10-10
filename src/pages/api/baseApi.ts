@@ -10,23 +10,20 @@ export class BaseApi {
         this.baseUrl = baseUrl;
     }
 
-    async signIn(email: string, password: string) {
+       async signIn(email: string, password: string): Promise<string> {
         const response = await this.request.post(`${this.baseUrl}/api/public/login`, {
             data: { email, password },
         });
-
-        if (!response.ok()) {
-            throw new Error(`Login failed: ${response.status()}`);
-        }
-
         const json = await response.json();
         this.token = json['jwt-token'];
+        return this.token!;
     }
-    // Check if we have token or not
-    async ensureSignedIn(email: string, password: string) {
+
+    async getToken(email: string, password: string): Promise<string> {
         if (!this.token) {
             await this.signIn(email, password);
         }
+        return this.token!;
     }
     protected getAuthHeaders() {
         if (!this.token) {
