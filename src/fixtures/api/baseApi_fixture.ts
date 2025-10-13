@@ -20,7 +20,7 @@ export const test = base.extend<ApiServices>({
         const userProfilesApi = new UserProfilesApi(request, baseUrl!);
         await use(userProfilesApi);
     },
-    authApi: async ({ request }, use) => { // ✅ Auth fixture
+    authApi: async ({ request }, use) => {
         const baseUrl = process.env.BASE_API!;
         const authApi = new AuthApi(request, baseUrl);
         await use(authApi);
