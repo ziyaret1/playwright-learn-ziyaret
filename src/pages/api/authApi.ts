@@ -1,33 +1,36 @@
 import { BaseApi } from './baseApi';
-import { AuthEndpoints, generateUniqueEmail, TestData } from '../../testData/testData';
+import { AuthEndpoints } from '../../testData/testData';
+import { APIResponse } from '@playwright/test';
+
+export interface RegisterRequest {
+    firstName: string;
+    lastName: string;
+    email: string;
+    dateOfBirth: string;
+    password: string;
+}
 
 export class AuthApi extends BaseApi {
-    //! Register user
-    async registerUser(userData: object) {
-        return await this.request.post(`${this.baseUrl}${AuthEndpoints.REGISTER_ENDP}`, {
-            data: userData,
-            headers: { 'Content-Type': 'application/json' },
+    private token: string | null = null;
+
+    async registerUser(userData: RegisterRequest): Promise<APIResponse> {
+        return this.post(AuthEndpoints.REGISTER_ENDP, userData, {
+            'Content-Type': 'application/json',
         });
     }
-    //! Register and login, returns token + credentials
-    async registerAndLoginUser() {
-        const email = generateUniqueEmail();
-        const password = TestData.PASSWORD;
 
-        const response = await this.registerUser({
-            firstName: TestData.FIRSTNAME,
-            lastName: TestData.LASTNAME,
-            email,
-            dateOfBirth: TestData.DATE_OF_BIRTH,
-            password,
-        });
-        if (response.status() !== 200) {
-            const text = await response.text();
-            console.error('Register failed response:', text);
-            throw new Error('Registration failed');
-        }
-        // Use BaseApi.signIn
-        await this.signIn(email, password);
-        return { token: this.token!, email, password };
+    async signIn(email: string, password: string): Promise<string> {
+        const response = await this.post(AuthEndpoints.SIGNIN_ENDP, { email, password });
+        const json = await response.json();
+        this.token = json['jwt-token'];
+        return this.token!;
+    }
+
+    getAuthHeaders(): Record<string, string> {
+        if (!this.token) throw new Error('Token is not set. Please sign in first.');
+        return {
+            Authorization: `Bearer ${this.token}`,
+            'Content-Type': 'application/json',
+        };
     }
 }

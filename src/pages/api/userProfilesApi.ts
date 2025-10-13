@@ -1,27 +1,43 @@
-import { UserProfilesEndpoints } from '../../testData/testData';
 import { BaseApi } from './baseApi';
+import { UserProfilesEndpoints } from '../../testData/testData';
+import { APIResponse } from '@playwright/test';
+import { AuthApi } from './authApi';
 
 export class UserProfilesApi extends BaseApi {
-    async setAccountPhoto(photoBytes: string) {
-        return this.request.post(`${this.baseUrl}${UserProfilesEndpoints.ACCOUNT_PHOTO_ENDP}`, {
-            headers: this.getAuthHeaders(),
-            data: { photoBytes },
-        });
+    private authApi: AuthApi;
+    private token: string | null = null;
+
+    constructor(request: any, baseUrl: string, authApi: AuthApi) {
+        super(request, baseUrl);
+        this.authApi = authApi;
     }
-    async editUserInfo(body: object) {
+
+     setToken(token: string): void {
+        this.token = token;
+    }
+    async setAccountPhoto(photoBytes: string): Promise<APIResponse> {
+        return this.post(
+            UserProfilesEndpoints.ACCOUNT_PHOTO_ENDP,
+            { photoBytes },
+            this.authApi.getAuthHeaders()
+        );
+    }
+
+    async editUserInfo(body: object): Promise<APIResponse> {
         return this.request.patch(`${this.baseUrl}${UserProfilesEndpoints.EDIT_USERINFO_ENDP}`, {
-            headers: this.getAuthHeaders(),
+            headers: this.authApi.getAuthHeaders(),
             data: body,
         });
     }
-    async viewUserInfo() {
-        return this.request.get(`${this.baseUrl}${UserProfilesEndpoints.VIEW_USERINFO_ENDP}`, {
-            headers: this.getAuthHeaders(),
-        });
+
+    async viewUserInfo(): Promise<APIResponse> {
+        return this.get(UserProfilesEndpoints.VIEW_USERINFO_ENDP, this.authApi.getAuthHeaders());
     }
-    async deleteUserAccount() {
-        return this.request.delete(`${this.baseUrl}${UserProfilesEndpoints.DELETE_ACCOUNT_ENDP}`, {
-            headers: this.getAuthHeaders(),
-        });
+
+    async deleteUserAccount(): Promise<APIResponse> {
+        return this.delete(
+            UserProfilesEndpoints.DELETE_ACCOUNT_ENDP,
+            this.authApi.getAuthHeaders()
+        );
     }
 }

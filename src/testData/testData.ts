@@ -49,5 +49,5 @@ export enum UserProfilesEndpoints {
 }
 export enum AuthEndpoints {
     REGISTER_ENDP = '/api/public/registration',
-    SIGNIN_ENDP = '/api/public/login'
+    SIGNIN_ENDP = '/api/public/login',
 }
