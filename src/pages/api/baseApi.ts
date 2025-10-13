@@ -1,4 +1,5 @@
 import { APIRequestContext } from '@playwright/test';
+import { AuthEndpoints } from '../../testData/testData';
 
 export class BaseApi {
     protected request: APIRequestContext;
@@ -9,11 +10,11 @@ export class BaseApi {
         this.request = request;
         this.baseUrl = baseUrl;
     }
-    setToken(token: string) {
+    async setToken(token: string) {
         this.token = token;
     }
     async signIn(email: string, password: string): Promise<string> {
-        const response = await this.request.post(`${this.baseUrl}/api/public/login`, {
+        const response = await this.request.post(`${this.baseUrl}${AuthEndpoints.SIGNIN_ENDP}`, {
             data: { email, password },
         });
         const json = await response.json();

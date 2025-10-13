@@ -47,3 +47,7 @@ export enum UserProfilesEndpoints {
     VIEW_USERINFO_ENDP = '/api/secured/account/view',
     DELETE_ACCOUNT_ENDP = '/api/secured/account/delete',
 }
+export enum AuthEndpoints {
+    REGISTER_ENDP = '/api/public/registration',
+    SIGNIN_ENDP = '/api/public/login'
+}
