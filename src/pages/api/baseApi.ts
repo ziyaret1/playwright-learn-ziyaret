@@ -9,8 +9,10 @@ export class BaseApi {
         this.request = request;
         this.baseUrl = baseUrl;
     }
-
-       async signIn(email: string, password: string): Promise<string> {
+    setToken(token: string) {
+        this.token = token;
+    }
+    async signIn(email: string, password: string): Promise<string> {
         const response = await this.request.post(`${this.baseUrl}/api/public/login`, {
             data: { email, password },
         });
@@ -25,6 +27,7 @@ export class BaseApi {
         }
         return this.token!;
     }
+
     protected getAuthHeaders() {
         if (!this.token) {
             throw new Error('Token is not set. Please sign in first.');

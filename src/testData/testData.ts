@@ -41,3 +41,9 @@ export enum CourseEndpoints {
     LANGUAGES_ENDP = '/api/secured/course/languages',
     COUNTRIES_ENDP = '/api/secured/course/countries',
 }
+export enum UserProfilesEndpoints {
+    ACCOUNT_PHOTO_ENDP = '/api/secured/account/photo',
+    EDIT_USERINFO_ENDP = '/api/secured/account/edit',
+    VIEW_USERINFO_ENDP = '/api/secured/account/view',
+    DELETE_ACCOUNT_ENDP = '/api/secured/account/delete',
+}
