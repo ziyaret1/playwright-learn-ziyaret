@@ -12,7 +12,7 @@ type ApiServices = {
 export const test = base.extend<ApiServices>({
     authApi: async ({ request }, use) => {
         const baseUrl = process.env.BASE_API!;
-        const authApi = new AuthApi(request, baseUrl);
+        const authApi = new AuthApi(request, baseUrl!);
         await use(authApi);
     },
     coursesApi: async ({ request, authApi }, use) => {
