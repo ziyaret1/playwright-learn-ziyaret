@@ -1,13 +1,13 @@
 import { BaseApi } from './baseApi';
 import { UserProfilesEndpoints } from '../../testData/testData';
-import { APIResponse } from '@playwright/test';
+import { APIRequestContext, APIResponse } from '@playwright/test';
 import { AuthApi } from './authApi';
 
 export class UserProfilesApi extends BaseApi {
     private authApi: AuthApi;
 
-    constructor(request: any, baseUrl: string, authApi: AuthApi) {
-        super(request, baseUrl);
+    constructor(request: APIRequestContext, baseUrl: string, authApi: AuthApi) {
+        super(request, baseUrl); 
         this.authApi = authApi;
     }
 

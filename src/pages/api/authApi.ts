@@ -5,8 +5,16 @@ import { APIResponse } from '@playwright/test';
 export class AuthApi extends BaseApi {
     private token: string | null = null;
 
-    async registerUser(userData: { firstName: string, lastName: string, email: string, dateOfBirth: string, password: string }): Promise<APIResponse> {
-        return this.post(AuthEndpoints.REGISTER_ENDP, userData, { 'Content-Type': 'application/json' });
+    async registerUser(userData: {
+        firstName: string;
+        lastName: string;
+        email: string;
+        dateOfBirth: string;
+        password: string;
+    }): Promise<APIResponse> {
+        return this.post(AuthEndpoints.REGISTER_ENDP, userData, {
+            'Content-Type': 'application/json',
+        });
     }
 
     async signIn(email: string, password: string): Promise<void> {

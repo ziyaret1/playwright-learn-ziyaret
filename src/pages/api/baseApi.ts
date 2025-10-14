@@ -2,7 +2,7 @@ import { APIRequestContext, APIResponse } from '@playwright/test';
 
 export abstract class BaseApi {
     protected request: APIRequestContext;
-    protected baseUrl: string; 
+    protected baseUrl: string;
 
     constructor(request: APIRequestContext, baseUrl: string) {
         this.request = request;

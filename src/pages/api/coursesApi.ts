@@ -1,35 +1,33 @@
+import { APIRequestContext } from '@playwright/test';
 import { CourseEndpoints } from '../../testData/testData';
+import { AuthApi } from './authApi';
 import { BaseApi } from './baseApi';
 
 export class CoursesApi extends BaseApi {
-    private token: string | null = null;
-
-    setToken(token: string) {
-        this.token = token;
+    constructor(
+        request: APIRequestContext,
+        baseUrl: string,
+        private authApi: AuthApi
+    ) {
+        super(request, baseUrl); // Call BaseApi constructor
     }
-
-    private getHeaders() {
-        if (!this.token) throw new Error('Token is not set');
-        return { Authorization: `Bearer ${this.token}`, 'Content-Type': 'application/json' };
-    }
-
     async filterCourses(filterBody: object) {
-        return this.post(CourseEndpoints.FILTER_COURSE_ENDP, filterBody, this.getHeaders());
+        return this.post(
+            CourseEndpoints.FILTER_COURSE_ENDP,
+            filterBody,
+            this.authApi.getAuthHeaders()
+        );
     }
-
     async getCourses() {
-        return this.get(CourseEndpoints.COURSES_ENDP, this.getHeaders());
+        return this.get(CourseEndpoints.COURSES_ENDP, this.authApi.getAuthHeaders());
     }
-
     async getTypes() {
-        return this.get(CourseEndpoints.TYPES_ENDP, this.getHeaders());
+        return this.get(CourseEndpoints.TYPES_ENDP, this.authApi.getAuthHeaders());
     }
-
     async getLanguages() {
-        return this.get(CourseEndpoints.LANGUAGES_ENDP, this.getHeaders());
+        return this.get(CourseEndpoints.LANGUAGES_ENDP, this.authApi.getAuthHeaders());
     }
-
     async getCountries() {
-        return this.get(CourseEndpoints.COUNTRIES_ENDP, this.getHeaders());
+        return this.get(CourseEndpoints.COUNTRIES_ENDP, this.authApi.getAuthHeaders());
     }
 }
