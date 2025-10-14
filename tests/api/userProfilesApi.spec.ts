@@ -34,7 +34,7 @@ test.describe('User Profiles API Tests', () => {
             firstName: 'New name',
             lastName: TestData.LASTNAME,
             dateOfBirth: TestData.DATE_OF_BIRTH,
-            email: email, // dynamic email
+            email: email,
         };
         const response = await userProfilesApi.editUserInfo(body);
         expect(response.status()).toBe(200);
