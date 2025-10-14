@@ -5,16 +5,12 @@ import { AuthApi } from './authApi';
 
 export class UserProfilesApi extends BaseApi {
     private authApi: AuthApi;
-    private token: string | null = null;
 
     constructor(request: any, baseUrl: string, authApi: AuthApi) {
         super(request, baseUrl);
         this.authApi = authApi;
     }
 
-     setToken(token: string): void {
-        this.token = token;
-    }
     async setAccountPhoto(photoBytes: string): Promise<APIResponse> {
         return this.post(
             UserProfilesEndpoints.ACCOUNT_PHOTO_ENDP,

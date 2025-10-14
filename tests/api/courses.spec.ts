@@ -3,8 +3,9 @@ import { expect } from '@playwright/test';
 import { TestDataSignin } from '../../src/testData/testData';
 
 test.describe('Courses API Tests', () => {
-    test.beforeEach(async ({ coursesApi }) => {
-        await coursesApi.getToken(TestDataSignin.EMAIL, TestDataSignin.PASSWORD);
+    test.beforeEach(async ({ coursesApi, authApi }) => {
+        await authApi.ensureSignedIn(TestDataSignin.EMAIL, TestDataSignin.PASSWORD);
+        coursesApi.setToken(authApi.getToken()!);
     }); 
     test('[AQAPRACT-601] Filter courses by language and type', async ({ coursesApi }) => {
         const response = await coursesApi.filterCourses({

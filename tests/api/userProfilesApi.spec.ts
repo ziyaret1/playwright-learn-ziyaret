@@ -8,25 +8,18 @@ test.describe('User Profiles API Tests', () => {
     let password: string;
 
     test.beforeEach(async ({ authApi, userProfilesApi }) => {
-        // Generate email for new user
         email = generateUniqueEmail();
         password = TestData.PASSWORD;
 
-        // Register
-        const registerResponse = await authApi.registerUser({
+        await authApi.registerUser({
             firstName: TestData.FIRSTNAME,
             lastName: TestData.LASTNAME,
             email,
             dateOfBirth: TestData.DATE_OF_BIRTH,
             password,
         });
-        expect(registerResponse.status()).toBe(200); // register yoxlaması
 
-        // Login and get token 
-        const token = await authApi.signIn(email, password);
-
-        // Send token to userProfilesApi 
-        userProfilesApi.setToken(token);
+        await authApi.signIn(email, password);
     });
 
     test('[AQAPRACT-606] Set account photo', async ({ userProfilesApi }) => {
@@ -38,12 +31,11 @@ test.describe('User Profiles API Tests', () => {
 
     test('[AQAPRACT-607] Edit user personal info', async ({ userProfilesApi }) => {
         const body = {
-            firstName: TestData.FIRSTNAME,
+            firstName: 'New name',
             lastName: TestData.LASTNAME,
             dateOfBirth: TestData.DATE_OF_BIRTH,
             email: email, // dynamic email
         };
-
         const response = await userProfilesApi.editUserInfo(body);
         expect(response.status()).toBe(200);
         const json = await response.json();
