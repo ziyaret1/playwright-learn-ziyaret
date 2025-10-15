@@ -1,6 +1,6 @@
 import { APIRequestContext, APIResponse } from '@playwright/test';
 
-export abstract class BaseApi {
+export class BaseApi {
     protected request: APIRequestContext;
     protected baseUrl: string;
 
@@ -9,30 +9,35 @@ export abstract class BaseApi {
         this.baseUrl = baseUrl;
     }
 
-    protected async get(endpoint: string, headers?: Record<string, string>): Promise<APIResponse> {
-        return this.request.get(`${this.baseUrl}${endpoint}`, { headers });
+    protected async get<T>(endpoint: string, headers?: Record<string, string>): Promise<T> {
+        const response = await this.request.get(`${this.baseUrl}${endpoint}`, { headers });
+        return (await response.json()) as T;
     }
 
-    protected async post(
+    protected async post<T>(
         endpoint: string,
         body?: object,
         headers?: Record<string, string>
-    ): Promise<APIResponse> {
-        return this.request.post(`${this.baseUrl}${endpoint}`, { data: body, headers });
+    ): Promise<T> {
+        const response = await this.request.post(`${this.baseUrl}${endpoint}`, { headers });
+        return response.json() as T;
     }
 
-    protected async put(
+    protected async put<T>(
         endpoint: string,
         body?: object,
         headers?: Record<string, string>
-    ): Promise<APIResponse> {
-        return this.request.put(`${this.baseUrl}${endpoint}`, { data: body, headers });
+    ): Promise<T> {
+        const response = await this.request.put(`${this.baseUrl}${endpoint}`, { headers });
+        return response.json() as T;
     }
 
-    protected async delete(
-        endpoint: string,
-        headers?: Record<string, string>
-    ): Promise<APIResponse> {
-        return this.request.delete(`${this.baseUrl}${endpoint}`, { headers });
+    protected async delete<T>(endpoint: string, headers?: Record<string, string>): Promise<T> {
+        const response = await this.request.delete(`${this.baseUrl}${endpoint}`, { headers });
+        return response.json() as T;
     }
 }
+
+// create only one class for your api (all together: courses, auth, userprofile)
+//! use generics for baseapi, use interfaces for courseApi methods
+

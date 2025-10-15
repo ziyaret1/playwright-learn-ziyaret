@@ -42,7 +42,7 @@ export enum CourseEndpoints {
     COUNTRIES_ENDP = '/api/secured/course/countries',
 }
 export enum UserProfilesEndpoints {
-    ACCOUNT_PHOTO_ENDP = '/api/secured/account/photo',
+    ACCOUNT_PHOTO_ENDP = '/api/secured/account/photo', // check this secured think
     EDIT_USERINFO_ENDP = '/api/secured/account/edit',
     VIEW_USERINFO_ENDP = '/api/secured/account/view',
     DELETE_ACCOUNT_ENDP = '/api/secured/account/delete',

@@ -2,6 +2,7 @@ import { BaseApi } from './baseApi';
 import { AuthEndpoints } from '../../testData/testData';
 import { APIResponse } from '@playwright/test';
 
+
 export class AuthApi extends BaseApi {
     private token: string | null = null;
 
@@ -28,11 +29,16 @@ export class AuthApi extends BaseApi {
     }
 
     getAuthHeaders(): Record<string, string> {
-        if (!this.token) throw new Error('Token is not set. Please sign in first.');
-        return { Authorization: `Bearer ${this.token}`, 'Content-Type': 'application/json' };
+        if (!this.token) {
+            throw new Error('Token is not set. Please sign in first.');
+        } else {
+            return { Authorization: `Bearer ${this.token}`, 'Content-Type': 'application/json' };
+        }
     }
 
-    // Use if we dont have token
+    //! we need token from register / should put token as a constructor in courseApi, use gettoken. We need gettoken, getvalidtoken.
+    //! Use in courses for check if we have token or not, if we dont signin
+
     async ensureSignedIn(email: string, password: string): Promise<void> {
         if (!this.token) await this.signIn(email, password);
     }

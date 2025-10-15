@@ -4,7 +4,12 @@ import { TestDataSignin } from '../../src/testData/testData';
 
 test.describe('Courses API Tests', () => {
     test.beforeEach(async ({ coursesApi, authApi }) => {
+        // if(!authApi.getToken()){
+        //     await authApi.signIn(TestDataSignin.EMAIL, TestDataSignin.PASSWORD);
+        // }
+        //! not put logic in spec
         await authApi.ensureSignedIn(TestDataSignin.EMAIL, TestDataSignin.PASSWORD);
+        console.log(authApi.getToken(), 'token Courses');
     });
     test('[AQAPRACT-601] Filter courses by language and type', async ({ coursesApi }) => {
         const response = await coursesApi.filterCourses({
@@ -24,10 +29,13 @@ test.describe('Courses API Tests', () => {
     });
     test('[AQAPRACT-602] Get list of secured courses', async ({ coursesApi }) => {
         const response = await coursesApi.getCourses();
+        // validateSuccessResponse
         expect(response.ok()).toBeTruthy();
         expect(response.status()).toBe(200);
+        //
         const body = await response.json();
         expect(body).toHaveProperty('courses');
+        // validateBodyHaveProperty
         expect(Array.isArray(body.courses)).toBeTruthy();
         expect(body.courses.length).toBeGreaterThan(0);
     });

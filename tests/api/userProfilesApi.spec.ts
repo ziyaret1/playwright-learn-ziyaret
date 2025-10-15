@@ -2,15 +2,20 @@ import { test } from '../../src/fixtures/api/baseApi_fixture';
 import { expect } from '@playwright/test';
 import fs from 'fs';
 import { generateUniqueEmail, TestData, TestFiles } from '../../src/testData/testData';
+import { CoursesApi } from '../../src/pages/api/coursesApi';
 
 test.describe('User Profiles API Tests', () => {
     let email: string;
     let password: string;
+    let testAccountCourseApi: CoursesApi;
 
     test.beforeEach(async ({ authApi, userProfilesApi }) => {
+        // call new courseapi, 
+        const testAccountCourseApi = new CoursesApi();
+        
         email = generateUniqueEmail();
         password = TestData.PASSWORD;
-
+ 
         await authApi.registerUser({
             firstName: TestData.FIRSTNAME,
             lastName: TestData.LASTNAME,
@@ -18,8 +23,7 @@ test.describe('User Profiles API Tests', () => {
             dateOfBirth: TestData.DATE_OF_BIRTH,
             password,
         });
-
-        await authApi.signIn(email, password);
+        // await authApi.signIn(email, password);
     });
 
     test('[AQAPRACT-606] Set account photo', async ({ userProfilesApi }) => {
@@ -52,8 +56,11 @@ test.describe('User Profiles API Tests', () => {
         expect(json).toHaveProperty('dateOfBirth');
     });
 
-    test('[AQAPRACT-609] Delete user account', async ({ userProfilesApi }) => {
-        const response = await userProfilesApi.deleteUserAccount();
+    test('[AQAPRACT-609] Delete user account', async () => {
+        const response = await testAccountCourseApi.deleteUserAccount();
         expect(response.status()).toBe(204);
     });
 });
+
+
+// dto for methods, generics for baseapi
