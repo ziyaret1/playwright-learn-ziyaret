@@ -19,17 +19,18 @@ import { expect } from '@playwright/test';
 export class CoursesApi extends BaseApi {
     private token: string | null = null;
 
-    async registerUserApi(bodyData: RegisterDataDTO): Promise<void> {
-        await this.post<RegisterDataDTO, void>(AuthEndpoints.REGISTER_ENDP, bodyData, {
+    async registerUserApi(bodyData: RegisterDataDTO): Promise<SignInRegisterResponseDTO> {
+        return await this.post<RegisterDataDTO, SignInRegisterResponseDTO>(AuthEndpoints.REGISTER_ENDP, bodyData, {
             'Content-Type': 'application/json',
         });
     }
-    async signInUserApi(bodyData: SignInRequestDTO): Promise<void> {
+    async signInUserApi(bodyData: SignInRequestDTO): Promise<SignInRegisterResponseDTO> {
         const response = await this.post<SignInRequestDTO, SignInRegisterResponseDTO>(
             AuthEndpoints.SIGNIN_ENDP,
             bodyData
         );
         this.token = response['jwt-token'];
+        return response
     }
 
     getAuthHeader(): Record<string, string> {
