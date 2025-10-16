@@ -7,8 +7,8 @@ type ApiServiceFixture = {
 
 export const test = base.extend<ApiServiceFixture>({
     coursesApi: async ({ request }, use) => {
-        const baseApi = process.env.BASE_API;
-        const courseApi = new CoursesApi(request, baseApi!);
+        const baseUrl: string | undefined = process.env.BASE_API;
+        const courseApi = new CoursesApi(request, baseUrl!);
         await use(courseApi);
     },
 });
