@@ -1,14 +1,14 @@
 import { test as base } from '@playwright/test';
 import { CoursesApi } from '../../pages/api/coursesApi';
 
-type ApiServices  = {
+type ApiServiceFixture = {
     coursesApi: CoursesApi;
 };
 
-export const test = base.extend<ApiServices>({
+export const test = base.extend<ApiServiceFixture>({
     coursesApi: async ({ request }, use) => {
-        const baseUrl = process.env.BASE_API;
-        const coursesApi = new CoursesApi(request, baseUrl!);
-        await use(coursesApi);
+        const baseUrl: string | undefined = process.env.BASE_API;
+        const courseApi = new CoursesApi(request, baseUrl!);
+        await use(courseApi);
     },
 });
