@@ -2,7 +2,7 @@ import { test as base } from '@playwright/test';
 import { CoursesApi } from '../../pages/api/coursesApi';
 
 type ApiServiceFixture = {
-    coursesApi: CoursesApi; // get new instance from courseapi
+    coursesApi: CoursesApi;
 };
 
 export const test = base.extend<ApiServiceFixture>({

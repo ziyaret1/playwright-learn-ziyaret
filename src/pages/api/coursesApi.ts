@@ -1,54 +1,19 @@
-// import { APIRequestContext, APIResponse } from '@playwright/test';
-// import { CourseEndpoints } from '../../testData/testData';
-// import { AuthApi } from './authApi';
-// import { BaseApi } from './baseApi';
-
-// // remove auth api, collect all our methods
-// export class CoursesApi extends BaseApi {
-//     constructor(
-//         request: APIRequestContext,
-//         baseUrl: string,
-//         // private authApi: AuthApi
-//     ) {
-//         super(request, baseUrl); // Call BaseApi constructor
-//     }
-//     async filterCourses(filterBody: object): Promise<APIResponse> {
-//         return this.post(
-//             CourseEndpoints.FILTER_COURSE_ENDP,
-//             filterBody,
-//             this.authApi.getAuthHeaders()
-//         );
-//     }
-//     async getCourses(): Promise<APIResponse> {
-//         return this.get(CourseEndpoints.COURSES_ENDP, this.authApi.getAuthHeaders());
-//     }
-//     async getTypes(): Promise<APIResponse> {
-//         return this.get(CourseEndpoints.TYPES_ENDP, this.authApi.getAuthHeaders());
-//     }
-//     async getLanguages(): Promise<APIResponse> {
-//         return this.get(CourseEndpoints.LANGUAGES_ENDP, this.authApi.getAuthHeaders());
-//     }
-//     async getCountries(): Promise<APIResponse> {
-//         return this.get(CourseEndpoints.COUNTRIES_ENDP, this.authApi.getAuthHeaders());
-//     }
-// }
-
-// //! add all methods here
-
 import { BaseApi } from './baseApi';
 import {
     CourseCountriesDTO,
-    CourseDTO,
     CourseLanguagesResponseDTO,
     CoursesResponseDTO,
     CourseTypesResponseDTO,
+    EditUserProfilesRequestDTO,
     FilterCoursesRequestDTO,
     FilterCoursesResponseDTO,
     RegisterDataDTO,
     SignInRegisterResponseDTO,
     SignInRequestDTO,
+    UserPhotoResponseDTO,
+    UserProfilesResponseDTO,
 } from '../../dto/authDTO';
-import { AuthEndpoints, CourseEndpoints } from '../../testData/testData';
+import { AuthEndpoints, CourseEndpoints, UserProfilesEndpoints } from '../../testData/testData';
 import { expect } from '@playwright/test';
 
 export class CoursesApi extends BaseApi {
@@ -60,7 +25,6 @@ export class CoursesApi extends BaseApi {
         });
     }
     async signInUserApi(bodyData: SignInRequestDTO): Promise<void> {
-        //! check
         const response = await this.post<SignInRequestDTO, SignInRegisterResponseDTO>(
             AuthEndpoints.SIGNIN_ENDP,
             bodyData
@@ -83,12 +47,7 @@ export class CoursesApi extends BaseApi {
         }
     }
 
-    //! Common Method
-    // async verifyResponseTruthy(response: Response): Promise<void> {
-    //     expect(response.ok).toBeTruthy();
-    //     expect(response.status).toBe(200);
-    // }
-
+    //! Common Verify Method
     async verifyResponseTruthy(response: any, expectedProperty?: string): Promise<void> {
         if (expectedProperty) {
             expect(response).toHaveProperty(expectedProperty);
@@ -126,4 +85,31 @@ export class CoursesApi extends BaseApi {
     }
 
     //! User Profiles Methods
+    async setUserPhoto(photoBytes: string): Promise<void> {
+        const dataBody: UserPhotoResponseDTO = { photoBytes };
+        const response = await this.post<UserPhotoResponseDTO, void>(
+            UserProfilesEndpoints.ACCOUNT_PHOTO_ENDP,
+            dataBody,
+            this.getAuthHeader()
+        );
+    }
+
+    async editUserInfo(dataBody: EditUserProfilesRequestDTO): Promise<UserProfilesResponseDTO> {
+        return this.patch<EditUserProfilesRequestDTO, UserProfilesResponseDTO>(
+            UserProfilesEndpoints.EDIT_USERINFO_ENDP,
+            dataBody,
+            this.getAuthHeader()
+        );
+    }
+
+    async getUserInfo(): Promise<UserProfilesResponseDTO> {
+        return this.get<UserProfilesResponseDTO>(
+            UserProfilesEndpoints.VIEW_USERINFO_ENDP,
+            this.getAuthHeader()
+        );
+    }
+
+    async deleteUserAccount(): Promise<void> {
+        await this.delete<void>(UserProfilesEndpoints.DELETE_ACCOUNT_ENDP, this.getAuthHeader());
+    }
 }

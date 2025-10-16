@@ -49,3 +49,23 @@ export interface CourseLanguagesResponseDTO {
 export interface CourseCountriesDTO {
     countries: string[];
 }
+
+//! User Profiles DTO
+export interface UserPhotoResponseDTO {
+    photoBytes: string;
+}
+
+export interface EditUserProfilesRequestDTO {
+    firstName: string;
+    lastName: string;
+    dateOfBirth: string;
+    password: string;
+}
+
+export interface UserProfilesResponseDTO {
+    firstName: string;
+    lastName: string;
+    email: string;
+    dateOfBirth: string;
+    photoBytes: string | null;
+}

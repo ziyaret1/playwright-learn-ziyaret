@@ -1,4 +1,4 @@
-import { APIRequestContext, APIResponse } from '@playwright/test';
+import { APIRequestContext } from '@playwright/test';
 
 export class BaseApi {
     protected request: APIRequestContext;
@@ -9,9 +9,9 @@ export class BaseApi {
         this.baseUrl = baseUrl;
     }
 
-    protected async get<T>(endpoint: string, headers?: Record<string, string>): Promise<T> {
+    protected async get<TRes>(endpoint: string, headers?: Record<string, string>): Promise<TRes> {
         const response = await this.request.get(`${this.baseUrl}${endpoint}`, { headers });
-        return (response.json()) as T;
+        return response.json() as TRes;
     }
 
     protected async post<TReq, TRes>(
@@ -23,7 +23,8 @@ export class BaseApi {
             data: body,
             headers,
         });
-        return (await response.json()) as TRes;
+        if (response.status() === 204) return {} as TRes;
+        return response.json() as TRes;
     }
 
     protected async put<TReq, TRes>(
@@ -35,7 +36,7 @@ export class BaseApi {
             data: body,
             headers,
         });
-        return (response.json()) as TRes;
+        return response.json() as TRes;
     }
 
     protected async patch<TReq, TRes>(
@@ -47,14 +48,17 @@ export class BaseApi {
             data: body,
             headers,
         });
-        return (await response.json()) as TRes;
+        return response.json() as TRes;
     }
 
-    protected async delete<T>(endpoint: string, headers?: Record<string, string>): Promise<T> {
+    protected async delete<TRes>(
+        endpoint: string,
+        headers?: Record<string, string>
+    ): Promise<TRes> {
         const response = await this.request.delete(`${this.baseUrl}${endpoint}`, { headers });
-        return response.json() as T;
+        if (response.status() === 204) {
+            return {} as TRes;
+        }
+        return response.json() as TRes;
     }
 }
-
-// create only one class for your api (all together: courses, auth, userprofile)
-//! use generics for baseapi, use interfaces for courseApi methods
