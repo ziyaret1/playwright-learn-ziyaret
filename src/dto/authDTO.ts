@@ -1,3 +1,4 @@
+//! Registration / Sign In DTO
 export interface RegisterDataDTO {
     firstName: string;
     lastName: string;

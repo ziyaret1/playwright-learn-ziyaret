@@ -11,10 +11,8 @@ import {
 test.describe('User Profiles API Tests', () => {
     let email: string;
     let password: string;
-    // let testAccountCourseApi: new CoursesApi();
 
     test.beforeEach(async ({ coursesApi }) => {
-        // coursesApi = new CoursesApi(request, BASE_URL);
         email = generateUniqueEmail();
         password = TestDataSignin.PASSWORD;
 
