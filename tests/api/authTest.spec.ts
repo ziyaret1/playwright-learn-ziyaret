@@ -8,7 +8,7 @@ test.describe('Auth Suite', () => {
         email = generateUniqueEmail();
     });
 
-    test('[] Register', async ({ coursesApi }) => {
+    test('[AQAPRACT-612] User registration with valid data', async ({ coursesApi }) => {
         const bodyData = {
             firstName: TestData.FIRSTNAME,
             lastName: TestData.LASTNAME,
@@ -22,7 +22,7 @@ test.describe('Auth Suite', () => {
         expect(response).toHaveProperty('jwt-token');
     });
 
-    test('[] Login', async ({ coursesApi }) => {
+    test('[AQAPRACT-611] Log in with valid data', async ({ coursesApi }) => {
         const bodyData = {
             email: TestDataSignin.EMAIL,
             password: TestDataSignin.PASSWORD,
