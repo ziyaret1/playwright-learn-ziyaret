@@ -51,3 +51,7 @@ export enum AuthEndpoints {
     REGISTER_ENDP = '/api/public/registration',
     SIGNIN_ENDP = '/api/public/login',
 }
+export enum HealthCheckEndpoints {
+    HEALTH_CHECK_SECURED = '/api/secured/health',
+    HEALTH_CHECK_PUBLIC = '/api/public/health',
+}
