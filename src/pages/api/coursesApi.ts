@@ -13,16 +13,25 @@ import {
     UserPhotoResponseDTO,
     UserProfilesResponseDTO,
 } from '../../dto/authDTO';
-import { AuthEndpoints, CourseEndpoints, UserProfilesEndpoints } from '../../testData/testData';
+import {
+    AuthEndpoints,
+    CourseEndpoints,
+    HealthCheckEndpoints,
+    UserProfilesEndpoints,
+} from '../../testData/testData';
 import { expect } from '@playwright/test';
 
 export class CoursesApi extends BaseApi {
     private token: string | null = null;
 
     async registerUserApi(bodyData: RegisterDataDTO): Promise<SignInRegisterResponseDTO> {
-        return await this.post<RegisterDataDTO, SignInRegisterResponseDTO>(AuthEndpoints.REGISTER_ENDP, bodyData, {
-            'Content-Type': 'application/json',
-        });
+        return await this.post<RegisterDataDTO, SignInRegisterResponseDTO>(
+            AuthEndpoints.REGISTER_ENDP,
+            bodyData,
+            {
+                'Content-Type': 'application/json',
+            }
+        );
     }
     async signInUserApi(bodyData: SignInRequestDTO): Promise<SignInRegisterResponseDTO> {
         const response = await this.post<SignInRequestDTO, SignInRegisterResponseDTO>(
@@ -30,7 +39,7 @@ export class CoursesApi extends BaseApi {
             bodyData
         );
         this.token = response['jwt-token'];
-        return response
+        return response;
     }
 
     getAuthHeader(): Record<string, string> {
@@ -112,5 +121,12 @@ export class CoursesApi extends BaseApi {
 
     async deleteUserAccount(): Promise<void> {
         await this.delete<void>(UserProfilesEndpoints.DELETE_ACCOUNT_ENDP, this.getAuthHeader());
+    }
+
+    //! Healt Check Methods
+    async getHealtCheck(endpoint: string, hasToken: boolean): Promise<string> {
+        const headers = hasToken ? this.getAuthHeader() : undefined;
+        const response = await this.request.get(`${this.baseUrl}${endpoint}`, { headers });
+        return await response.text();
     }
 }
