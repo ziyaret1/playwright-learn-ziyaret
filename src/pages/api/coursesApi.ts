@@ -126,10 +126,7 @@ export class CoursesApi extends BaseApi {
     //! Healt Check Methods
     async getHealtCheck(endpoint: string, hasToken: boolean): Promise<string> {
         const headers = hasToken ? this.getAuthHeader() : undefined;
-        const response = await this.request.get(
-            `${this.baseUrl}${endpoint}`,
-            { headers }
-        );
+        const response = await this.request.get(`${this.baseUrl}${endpoint}`, { headers });
         return await response.text();
     }
 }
